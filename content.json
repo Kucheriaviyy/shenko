@@ -1,0 +1,224 @@
+{
+ "site": {
+  "wg": true,
+  "fly": true,
+  "str": 1,
+  "contact": "Contact: your@email.com",
+  "transitions": [
+   "beige.svg",
+   "white.svg",
+   "white-toc.svg"
+  ]
+ },
+ "sections": [
+  {
+   "id": "hero",
+   "c": "n",
+   "full": true,
+   "stat": true,
+   "rows": 16,
+   "blocks": [
+    {
+     "id": "h1",
+     "t": "shape",
+     "x": 0,
+     "y": 3,
+     "w": 9,
+     "h": 8,
+     "k": 1,
+     "c": "r"
+    },
+    {
+     "id": "h2",
+     "t": "shape",
+     "x": 7,
+     "y": 0,
+     "w": 5,
+     "h": 3,
+     "k": 2,
+     "c": "a"
+    },
+    {
+     "id": "h3",
+     "t": "shape",
+     "x": 0,
+     "y": 11,
+     "w": 12,
+     "h": 5,
+     "k": 3,
+     "c": "b"
+    },
+    {
+     "id": "h4",
+     "t": "text",
+     "x": 0,
+     "y": 0,
+     "w": 10,
+     "h": 2,
+     "text": "Shevchenko's",
+     "f": "s",
+     "fs": 9,
+     "c": "r",
+     "rot": -4
+    },
+    {
+     "id": "h5",
+     "t": "heading",
+     "x": 0,
+     "y": 2,
+     "w": 12,
+     "h": 4,
+     "text": "YEHOR",
+     "fs": 24,
+     "c": "b"
+    },
+    {
+     "id": "h6",
+     "t": "image",
+     "x": 2,
+     "y": 5,
+     "w": 8,
+     "h": 9
+    }
+   ]
+  },
+  {
+   "id": "about",
+   "c": "n",
+   "rows": 14,
+   "blocks": [
+    {
+     "id": "a1",
+     "t": "image",
+     "x": 0,
+     "y": 1,
+     "w": 6,
+     "h": 7,
+     "pol": true,
+     "rot": -3
+    },
+    {
+     "id": "a2",
+     "t": "heading",
+     "x": 6,
+     "y": 1,
+     "w": 6,
+     "h": 3,
+     "text": "Who\nam I",
+     "fs": 9,
+     "c": "r"
+    },
+    {
+     "id": "a3",
+     "t": "text",
+     "x": 6,
+     "y": 5,
+     "w": 6,
+     "h": 4,
+     "text": "Digital designer and animator. Branding, packaging, vector illustration.",
+     "fs": 3.4,
+     "bg": "a",
+     "rot": 2
+    }
+   ]
+  },
+  {
+   "id": "toc",
+   "c": "n",
+   "rows": 9,
+   "tr": "white-toc.svg",
+   "blocks": [
+    {
+     "id": "t1",
+     "t": "heading",
+     "x": 0,
+     "y": 0,
+     "w": 12,
+     "h": 2,
+     "text": "Table of Contents",
+     "fs": 9,
+     "c": "b"
+    },
+    {
+     "id": "t2",
+     "t": "toc",
+     "x": 0,
+     "y": 2,
+     "w": 10,
+     "h": 6,
+     "fs": 3
+    }
+   ]
+  },
+  {
+   "id": "gal",
+   "c": "b",
+   "rows": 14,
+   "group": "Branding & Packaging",
+   "tr": "beige.svg",
+   "blocks": [
+    {
+     "id": "g1",
+     "t": "heading",
+     "x": 0,
+     "y": 0,
+     "w": 12,
+     "h": 2,
+     "text": "Branding & Packaging",
+     "fs": 8,
+     "c": "n"
+    },
+    {
+     "id": "g2",
+     "t": "carousel",
+     "x": 0,
+     "y": 2,
+     "w": 12,
+     "h": 7,
+     "srcs": [],
+     "toc": "Schindler x Talent Cards"
+    },
+    {
+     "id": "g3",
+     "t": "heading",
+     "x": 0,
+     "y": 10,
+     "w": 12,
+     "h": 3,
+     "text": "Schindler x Talent Cards",
+     "f": "s",
+     "fs": 12,
+     "c": "a"
+    }
+   ]
+  },
+  {
+   "id": "m3",
+   "c": "a",
+   "rows": 12,
+   "group": "Recent Work",
+   "blocks": [
+    {
+     "id": "m1",
+     "t": "heading",
+     "x": 0,
+     "y": 0,
+     "w": 12,
+     "h": 2,
+     "text": "Can in 3D",
+     "fs": 9,
+     "c": "b"
+    },
+    {
+     "id": "m2",
+     "t": "model",
+     "x": 1,
+     "y": 2,
+     "w": 10,
+     "h": 8,
+     "toc": "Can in 3D"
+    }
+   ]
+  }
+ ]
+}

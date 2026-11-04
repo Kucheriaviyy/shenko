@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SHENKO builder</title>
+<style>
+*{box-sizing:border-box;margin:0;border-radius:0}
+body{height:100vh;display:flex;flex-direction:column;background:#2a0e0b;color:#ffebde;font:13px/1.4 ui-monospace,"Roboto Mono",monospace;overflow:hidden}
+#top{display:flex;gap:4px;align-items:center;padding:6px 10px;background:#3c140f;flex-wrap:wrap}
+#top b{margin-right:10px;color:#f0bd89}.sp{flex:1}
+button,select,input,textarea{font:inherit;color:inherit}
+button{background:#ffebde;color:#3c140f;border:0;padding:.4rem .7rem;cursor:pointer}
+button.on{background:#e84e3e;color:#fff}
+#main{flex:1;display:flex;min-height:0}
+#stage{flex:1;overflow:auto;display:flex;justify-content:center;align-items:flex-start;padding:16px;background:#1c0a08}
+#dev{transform-origin:top center;flex:none;background:#000;padding:10px 10px 18px}
+#fr{display:block;border:0;background:#ffebde}
+#side{width:340px;display:flex;flex-direction:column;background:#3c140f;border-left:2px solid #e84e3e}
+#tabs{display:flex}#tabs button{flex:1;background:#2a0e0b;color:#ffebde}#tabs button.on{background:#e84e3e;color:#fff}
+#pane{flex:1;overflow:auto;padding:10px}
+h4{margin:14px 0 6px;color:#f0bd89;font-weight:500}h4:first-child{margin-top:0}
+.lg{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.lib{background:#ffebde;color:#3c140f;padding:.8rem .5rem;text-align:center;cursor:grab}
+.row{display:flex;gap:3px;align-items:center;padding:4px;margin-bottom:3px;background:#2a0e0b;cursor:pointer}
+.row.on{outline:2px solid #e84e3e}.row span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row button{padding:.2rem .4rem;font-size:11px}
+.f{display:block;margin-bottom:8px}.f span{display:block;opacity:.75;margin-bottom:2px}
+.f input[type=text],.f input[type=number],.f select,.f textarea{width:100%;background:#2a0e0b;border:1px solid #6b2a22;padding:.35rem}
+.f button{margin-top:4px}
+.xy{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.big{width:100%;margin-top:8px;background:#f0bd89}.hint{opacity:.7}
+#pane>button{margin:4px 4px 0 0}
+</style></head>
+<body>
+<header id="top"><b>SHENKO builder</b>
+<button data-d="phone">Телефон</button><button data-d="tablet">Планшет</button><button data-d="laptop">Ноутбук</button>
+<button data-a="grid">Сетка</button><button data-a="undo">Отменить</button><span class="sp"></span>
+<span id="st"></span>
+<button data-a="open">Открыть сайт</button><button data-a="json">Скачать content.json</button><button data-a="cfg">GitHub</button><button data-a="push" style="background:#e84e3e;color:#fff">Push</button></header>
+<div id="main"><div id="stage"><div id="dev"><iframe id="fr" title="preview"></iframe></div></div>
+<aside id="side"><div id="tabs"><button data-t="blocks">Блоки</button><button data-t="props">Свойства</button><button data-t="site">Настройки</button></div><div id="pane"></div></aside></div>
+<script src="assets/js/editor.js"></script>
+</body></html>
