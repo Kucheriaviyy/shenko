@@ -3,6 +3,7 @@
   "title": "SHENKO — Yehor Shevchenko",
   "wg": true,
   "fly": true,
+  "qr": true,
   "str": 1,
   "transitions": [
    "beige.svg",
@@ -17,26 +18,26 @@
    "name": "Хедер",
    "c": "n",
    "rows": 8,
-   "blocks": [],
    "bg": "assets/img/header.webp",
-   "bgx": 52
+   "bgx": 52,
+   "blocks": []
   },
   {
    "id": "about",
    "kind": "normal",
    "name": "Who am I",
    "c": "n",
-   "rows": 14,
+   "rows": 23,
    "blocks": [
     {
      "id": "a1",
      "t": "image",
      "x": 0,
      "y": 1,
-     "w": 6,
-     "h": 7,
-     "pol": true,
-     "rot": -3
+     "w": 7,
+     "h": 12,
+     "src": "assets/img/about-yehor.webp",
+     "fit": "contain"
     },
     {
      "id": "a2",
@@ -46,7 +47,7 @@
      "w": 6,
      "h": 3,
      "text": "Who\nam I",
-     "fs": 9,
+     "fs": 10,
      "c": "r"
     },
     {
@@ -55,11 +56,34 @@
      "x": 6,
      "y": 5,
      "w": 6,
-     "h": 4,
-     "text": "Digital designer and animator. Branding, packaging, vector illustration.",
-     "fs": 3.4,
+     "h": 7,
+     "text": "I am a digital designer and animator working across branding, packaging and vector illustration. I am currently training as a Mediamatiker at BBZW Sursee, where I consistently achieve strong results.",
+     "fs": 3.2,
      "bg": "a",
      "rot": 2
+    },
+    {
+     "id": "a4",
+     "t": "heading",
+     "x": 6,
+     "y": 14,
+     "w": 6,
+     "h": 2,
+     "text": "Education",
+     "f": "s",
+     "fs": 11,
+     "c": "b",
+     "z": 2
+    },
+    {
+     "id": "a5",
+     "t": "image",
+     "x": 0,
+     "y": 13,
+     "w": 7,
+     "h": 8,
+     "src": "assets/img/about-bbzw.webp",
+     "fit": "contain"
     }
    ]
   },
@@ -68,102 +92,467 @@
    "kind": "toc",
    "name": "Содержание",
    "c": "n",
-   "rows": 9,
+   "rows": 14,
    "tr": "white-toc.svg",
    "blocks": [
     {
      "id": "t1",
      "t": "heading",
      "x": 0,
-     "y": 0,
+     "y": 1,
      "w": 12,
      "h": 2,
      "text": "Table of Contents",
-     "fs": 9,
+     "fs": 8,
      "c": "b"
     },
     {
      "id": "t2",
      "t": "toc",
      "x": 0,
-     "y": 2,
-     "w": 10,
-     "h": 6,
+     "y": 4,
+     "w": 11,
+     "h": 9,
      "fs": 3
     }
    ]
   },
   {
-   "id": "gal",
+   "id": "schindler",
    "kind": "normal",
-   "name": "Branding & Packaging",
+   "name": "Schindler x Talent Cards",
    "group": "Recent Work",
-   "c": "b",
-   "rows": 14,
-   "tr": "beige.svg",
+   "c": "n",
+   "rows": 21,
    "blocks": [
     {
-     "id": "g1",
+     "id": "schindlert",
      "t": "heading",
      "x": 0,
-     "y": 0,
-     "w": 12,
-     "h": 2,
-     "text": "Branding & Packaging",
-     "fs": 8,
-     "c": "n"
-    },
-    {
-     "id": "g2",
-     "t": "carousel",
-     "x": 0,
-     "y": 2,
-     "w": 12,
-     "h": 7,
-     "srcs": []
-    },
-    {
-     "id": "g3",
-     "t": "heading",
-     "x": 0,
-     "y": 10,
+     "y": 1,
      "w": 12,
      "h": 3,
      "text": "Schindler x Talent Cards",
-     "f": "s",
-     "fs": 12,
-     "c": "a"
+     "fs": 8,
+     "c": "b"
+    },
+    {
+     "id": "schindlerl",
+     "t": "text",
+     "x": 0,
+     "y": 4,
+     "w": 12,
+     "h": 1,
+     "text": "My Role",
+     "fs": 2.8,
+     "c": "r",
+     "f": "m"
+    },
+    {
+     "id": "schindlerd",
+     "t": "text",
+     "x": 0,
+     "y": 5,
+     "w": 12,
+     "h": 5,
+     "text": "I currently work at Schindler, where I was tasked with designing a set of talent cards. The cards had to follow the brand identity, stay simple and easy to understand, and communicate clearly. I then developed mockups to present the cards on our website.",
+     "fs": 3.4,
+     "c": "b"
+    },
+    {
+     "id": "schindlerp",
+     "t": "tools",
+     "x": 0,
+     "y": 10,
+     "w": 12,
+     "h": 2,
+     "items": [
+      "ai",
+      "ps"
+     ],
+     "fs": 8
+    },
+    {
+     "id": "schindlerm0",
+     "t": "carousel",
+     "x": 0,
+     "y": 12,
+     "w": 12,
+     "h": 7,
+     "n": 4,
+     "srcs": []
     }
    ]
   },
   {
-   "id": "m3",
+   "id": "unbenannt",
    "kind": "normal",
-   "name": "Can in 3D",
-   "group": "Recent Work",
-   "c": "a",
-   "rows": 12,
+   "name": "Unbenannt-1",
+   "group": "Branding & Packaging",
+   "c": "b",
+   "rows": 31,
    "blocks": [
     {
-     "id": "m1",
+     "id": "unbenanntt",
      "t": "heading",
      "x": 0,
-     "y": 0,
+     "y": 1,
+     "w": 12,
+     "h": 3,
+     "text": "Unbenannt-1",
+     "fs": 8,
+     "c": "n"
+    },
+    {
+     "id": "unbenanntl",
+     "t": "text",
+     "x": 0,
+     "y": 4,
+     "w": 12,
+     "h": 1,
+     "text": "About the project",
+     "fs": 2.8,
+     "c": "a",
+     "f": "m"
+    },
+    {
+     "id": "unbenanntd",
+     "t": "text",
+     "x": 0,
+     "y": 5,
+     "w": 12,
+     "h": 6,
+     "text": "At the end of a three-month course in graphic design and compositing, we were given a final project: a complete brand identity for a fictional brand, covering brand typefaces, colors, logos, patterns, mockups and a website layout. The deadline was under five days, roughly 30 hours of work. I designed three unique can designs, then used 3D to create realistic mockups for my website layout.",
+     "fs": 3.4,
+     "c": "n"
+    },
+    {
+     "id": "unbenanntp",
+     "t": "tools",
+     "x": 0,
+     "y": 11,
      "w": 12,
      "h": 2,
-     "text": "Can in 3D",
-     "fs": 9,
+     "items": [
+      "ai",
+      "ps",
+      "bl",
+      "fg"
+     ],
+     "fs": 8
+    },
+    {
+     "id": "unbenanntm0",
+     "t": "carousel",
+     "x": 0,
+     "y": 13,
+     "w": 12,
+     "h": 7,
+     "n": 11,
+     "srcs": []
+    },
+    {
+     "id": "unbenanntm1",
+     "t": "model",
+     "x": 1,
+     "y": 21,
+     "w": 10,
+     "h": 8,
+     "src": ""
+    }
+   ],
+   "tr": "beige.svg"
+  },
+  {
+   "id": "flotte",
+   "kind": "normal",
+   "name": "Flottefjell",
+   "group": "Branding & Packaging",
+   "c": "n",
+   "rows": 29,
+   "blocks": [
+    {
+     "id": "flottet",
+     "t": "heading",
+     "x": 0,
+     "y": 1,
+     "w": 12,
+     "h": 3,
+     "text": "Flottefjell",
+     "fs": 8,
      "c": "b"
     },
     {
-     "id": "m2",
-     "t": "model",
+     "id": "flottel",
+     "t": "text",
+     "x": 0,
+     "y": 4,
+     "w": 12,
+     "h": 1,
+     "text": "About the project",
+     "fs": 2.8,
+     "c": "r",
+     "f": "m"
+    },
+    {
+     "id": "flotted",
+     "t": "text",
+     "x": 0,
+     "y": 5,
+     "w": 12,
+     "h": 4,
+     "text": "As the final project of our print design course, we were asked to develop a brand identity for a tourism brand and design a brochure for it.",
+     "fs": 3.4,
+     "c": "b"
+    },
+    {
+     "id": "flottep",
+     "t": "tools",
+     "x": 0,
+     "y": 9,
+     "w": 12,
+     "h": 2,
+     "items": [
+      "id"
+     ],
+     "fs": 8
+    },
+    {
+     "id": "flottem0",
+     "t": "carousel",
+     "x": 0,
+     "y": 11,
+     "w": 12,
+     "h": 7,
+     "n": 2,
+     "srcs": []
+    },
+    {
+     "id": "flottem1",
+     "t": "pdf",
+     "x": 0,
+     "y": 19,
+     "w": 12,
+     "h": 8,
+     "pages": [
+      "assets/pdf/flottefjell/p01.webp",
+      "assets/pdf/flottefjell/p02.webp",
+      "assets/pdf/flottefjell/p03.webp",
+      "assets/pdf/flottefjell/p04.webp",
+      "assets/pdf/flottefjell/p05.webp",
+      "assets/pdf/flottefjell/p06.webp",
+      "assets/pdf/flottefjell/p07.webp",
+      "assets/pdf/flottefjell/p08.webp",
+      "assets/pdf/flottefjell/p09.webp",
+      "assets/pdf/flottefjell/p10.webp",
+      "assets/pdf/flottefjell/p11.webp",
+      "assets/pdf/flottefjell/p12.webp",
+      "assets/pdf/flottefjell/p13.webp",
+      "assets/pdf/flottefjell/p14.webp",
+      "assets/pdf/flottefjell/p15.webp",
+      "assets/pdf/flottefjell/p16.webp"
+     ]
+    }
+   ],
+   "tr": "white.svg"
+  },
+  {
+   "id": "xmas",
+   "kind": "normal",
+   "name": "Christmas Card",
+   "group": "Digital Art",
+   "c": "a",
+   "rows": 20,
+   "blocks": [
+    {
+     "id": "xmast",
+     "t": "heading",
+     "x": 0,
+     "y": 1,
+     "w": 12,
+     "h": 3,
+     "text": "Christmas Card",
+     "fs": 8,
+     "c": "b"
+    },
+    {
+     "id": "xmasl",
+     "t": "text",
+     "x": 0,
+     "y": 4,
+     "w": 12,
+     "h": 1,
+     "text": "About the project",
+     "fs": 2.8,
+     "c": "r",
+     "f": "m"
+    },
+    {
+     "id": "xmasd",
+     "t": "text",
+     "x": 0,
+     "y": 5,
+     "w": 12,
+     "h": 3,
+     "text": "An illustrated Christmas card in A5 landscape format. Drag to rotate it in 3D.",
+     "fs": 3.4,
+     "c": "b"
+    },
+    {
+     "id": "xmasp",
+     "t": "tools",
+     "x": 0,
+     "y": 8,
+     "w": 12,
+     "h": 2,
+     "items": [
+      "ai",
+      "ps"
+     ],
+     "fs": 8
+    },
+    {
+     "id": "xmasm0",
+     "t": "card3d",
      "x": 1,
-     "y": 2,
+     "y": 10,
      "w": 10,
-     "h": 8
+     "h": 8,
+     "front": "",
+     "back": ""
+    }
+   ],
+   "tr": "beige.svg"
+  },
+  {
+   "id": "vita",
+   "kind": "normal",
+   "name": "Vita",
+   "group": "Digital Art",
+   "c": "n",
+   "rows": 19,
+   "blocks": [
+    {
+     "id": "vitat",
+     "t": "heading",
+     "x": 0,
+     "y": 1,
+     "w": 12,
+     "h": 3,
+     "text": "Vita",
+     "fs": 8,
+     "c": "b"
+    },
+    {
+     "id": "vital",
+     "t": "text",
+     "x": 0,
+     "y": 4,
+     "w": 12,
+     "h": 1,
+     "text": "About the project",
+     "fs": 2.8,
+     "c": "r",
+     "f": "m"
+    },
+    {
+     "id": "vitad",
+     "t": "text",
+     "x": 0,
+     "y": 5,
+     "w": 12,
+     "h": 3,
+     "text": "A small illustration I created for Schindler in their visual style, designed to raise awareness of road safety when driving.",
+     "fs": 3.4,
+     "c": "b"
+    },
+    {
+     "id": "vitap",
+     "t": "tools",
+     "x": 0,
+     "y": 8,
+     "w": 12,
+     "h": 2,
+     "items": [
+      "ai"
+     ],
+     "fs": 8
+    },
+    {
+     "id": "vitam0",
+     "t": "image",
+     "x": 0,
+     "y": 10,
+     "w": 12,
+     "h": 7,
+     "src": ""
     }
    ]
+  },
+  {
+   "id": "other",
+   "kind": "normal",
+   "name": "Other Illustrations",
+   "group": "Digital Art",
+   "c": "b",
+   "rows": 18,
+   "blocks": [
+    {
+     "id": "othert",
+     "t": "heading",
+     "x": 0,
+     "y": 1,
+     "w": 12,
+     "h": 3,
+     "text": "Other Illustrations",
+     "fs": 8,
+     "c": "n"
+    },
+    {
+     "id": "otherl",
+     "t": "text",
+     "x": 0,
+     "y": 4,
+     "w": 12,
+     "h": 1,
+     "text": "About the project",
+     "fs": 2.8,
+     "c": "a",
+     "f": "m"
+    },
+    {
+     "id": "otherd",
+     "t": "text",
+     "x": 0,
+     "y": 5,
+     "w": 12,
+     "h": 2,
+     "text": "A selection of other illustrations.",
+     "fs": 3.4,
+     "c": "n"
+    },
+    {
+     "id": "otherp",
+     "t": "tools",
+     "x": 0,
+     "y": 7,
+     "w": 12,
+     "h": 2,
+     "items": [],
+     "fs": 8
+    },
+    {
+     "id": "otherm0",
+     "t": "carousel",
+     "x": 0,
+     "y": 9,
+     "w": 12,
+     "h": 7,
+     "n": 6,
+     "srcs": []
+    }
+   ],
+   "tr": "white.svg"
   },
   {
    "id": "foot",
