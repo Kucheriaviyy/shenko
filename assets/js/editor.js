@@ -21,7 +21,7 @@ toc:[['_','Оглавление'],['fs','Размер','num'],['c','Цвет','c
 const VIEW=[['_','Вид и показ'],['op','Прозрачность (0-1)','num'],['z','Слой (z)','num'],['hm','Скрыть на телефоне','chk'],['hd','Скрыть на компьютере','chk']];
 function secFields(s){const k=s.kind,f=[['_','Секция'],['name','Название','text']];
 if(k=='normal')f.push(['group','Группа (заголовок в оглавлении)','text'],['intoc','Показывать в оглавлении','chk']);
-f.push(['_','Фон'],['c','Цвет фона','col'],['bg','Картинка фона','file'],['ov','Затемнение, %','range'],['_','Размер'],['rows','Минимум рядов сетки','num']);
+f.push(['_','Фон'],['c','Цвет фона','col'],['bg','Картинка фона','file'],['bgm','Картинка фона для телефона','file'],['bgfit','Вписывание','sel',[['cover','Заполнить экран'],['contain','Вписать целиком']]],['bgx','Фокус по горизонтали, %','range'],['ov','Затемнение, %','range'],['_','Размер'],['rows','Минимум рядов сетки','num']);
 if(k=='normal')f.push(['full','Высота на весь экран','chk']);
 f.push(['_','Поведение']);if(k!='header')f.push(['tr','Переход сверху','sel','TR']);
 f.push(['free','Разрешить наложение блоков','chk'],['hidden','Скрыть секцию на сайте','chk']);return f}
@@ -49,7 +49,8 @@ const CSS=`.b{touch-action:none;cursor:grab;outline:1px dashed rgba(232,78,62,.5
 function size(){const[w,h]=DEV[dev],s=$('#stage'),k=Math.min(1,(s.clientWidth-52)/w,(s.clientHeight-60)/h);fr.style.width=w+'px';fr.style.height=h+'px';$('#dev').style.transform=`scale(${k})`;$('#dev').style.marginBottom=(-(h)*(1-k))+'px';document.querySelectorAll('[data-d]').forEach(b=>b.classList.toggle('on',b.dataset.d==dev))}
 function mark(){const d=fr.contentDocument;if(!d||!d.body)return;d.body.classList.toggle('gr',grid);d.querySelectorAll('.sel,.ss').forEach(e=>e.classList.remove('sel','ss'));d.querySelectorAll('.rs').forEach(e=>e.remove());
 d.querySelector(`[data-s="${sel.s}"]`)?.classList.add('ss');const b=sel.b&&d.querySelector(`[data-b="${sel.b}"]`);if(b){b.classList.add('sel');b.insertAdjacentHTML('beforeend','<i class="rs"></i>')}}
-function commit(p){const w=fr.contentWindow;if(!w||!w.SITE)return;w.SITE.render(S,true);mark();if(p){left_();right_()}}
+function commit(p){try{const w=fr.contentWindow;if(!w||!w.SITE){st('Превью не загрузилось: на сервере старый index.html или assets/js/site.js. Залей новые файлы и обнови страницу (Ctrl+F5).');return}w.SITE.render(S,true);mark();if(p){left_();right_()}}catch(e){st('Ошибка превью: '+e.message);console.error(e)}}
+addEventListener('error',e=>st('Ошибка: '+e.message));
 function met(sc){const g=sc.querySelector('.g'),r=g.getBoundingClientRect(),n=+g.style.getPropertyValue('--rows'),cw=r.width/12;return{cw,ch:sc.classList.contains('full')?r.height/n:cw,r}}
 function addBlock(t,sid,x,y){const s=S.sections.find(q=>q.id==sid);if(!s)return;snap();const b=mk(t,0,0);b.x=Math.max(0,Math.min(12-b.w,x));b.y=Math.max(0,y);place(s,b);s.blocks.push(b);sel={s:sid,b:b.id};commit(true)}
 function delb(){if(!blk())return;snap();sec().blocks=sec().blocks.filter(x=>x.id!=sel.b);sel.b=null;commit(true)}
@@ -75,7 +76,7 @@ if(t=='chk')return `<label class="f ck"><input type="checkbox" ${a} ${(v===undef
 if(t=='area')h=`<textarea rows="3" ${a}>${esc(v)}</textarea>`;
 else if(t=='list')h=`<textarea rows="4" data-list ${a}>${esc((v||[]).join('\n'))}</textarea>`;
 else if(t=='num')h=`<input type="number" step="any" value="${v??''}" ${a}>`;
-else if(t=='range')h=`<input type="range" min="0" max="90" value="${v||0}" ${a}>`;
+else if(t=='range')h=`<input type="range" min="0" max="100" value="${v??(k=='bgx'?50:0)}" ${a}>`;
 else if(t=='sel'||t=='col'||t=='col0'){const L=t=='sel'?(op=='TR'?[['','Нет']].concat((S.site.transitions||[]).map(x=>[x,x])):op):(t=='col0'?[['','Нет']]:[]).concat(PAL);h=`<select ${a}>${L.map(([x,n])=>`<option value="${x}"${(v||(t=='col'?(o.kind=='footer'?'b':k=='c'&&sc=='s'?'n':'b'):''))==x?' selected':''}>${n}</option>`).join('')}</select>`}
 else if(t=='file')h=`<input type="text" value="${esc(disp(v))}" ${a}><button data-up="${k}" data-sc="${sc}">Загрузить файл</button>`;
 else if(t=='files')h=`<textarea rows="4" data-list ${a}>${esc((v||[]).map(disp).join('\n'))}</textarea><button data-up="${k}" data-sc="${sc}" data-m="1">Загрузить файлы</button>`;
@@ -149,6 +150,6 @@ if(a=='grid'){grid=!grid;t.classList.toggle('on',grid);mark()}if(a=='undo')undo(
 if(a=='open')open('index.html');
 if(a=='json'){const l=document.createElement('a');l.href=URL.createObjectURL(new Blob([JSON.stringify(out()[0],null,1)]));l.download='content.json';l.click()}});
 addEventListener('resize',size);
-fr.onload=()=>{wire();commit(true)};
+fr.onload=()=>{try{wire()}catch(e){st('Ошибка: '+e.message)}commit(true)};
 fetch('content.json?'+Date.now()).then(r=>r.json()).then(j=>{S=j;S.site=S.site||{};S.site.transitions=S.site.transitions||[];S.sections.forEach((s,i)=>{if(!s.kind)s.kind=s.stat?'header':s.id=='toc'?'toc':'normal';if(!s.name)s.name=s.group||'Секция '+(i+1);s.blocks=s.blocks||[]});
-$('[data-a=grid]').classList.add('on');size();left_();right_();fr.src='index.html?preview'}).catch(e=>st('Открой редактор по адресу сайта (или через локальный сервер), не двойным кликом: '+e.message));
+$('[data-a=grid]').classList.add('on');size();left_();right_();fr.src='index.html?preview&v='+Date.now()}).catch(e=>st('Открой редактор по адресу сайта (или через локальный сервер), не двойным кликом: '+e.message));
