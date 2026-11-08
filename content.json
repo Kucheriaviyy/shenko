@@ -1,9 +1,9 @@
 {
  "site": {
+  "title": "SHENKO — Yehor Shevchenko",
   "wg": true,
   "fly": true,
   "str": 1,
-  "contact": "Contact: your@email.com",
   "transitions": [
    "beige.svg",
    "white.svg",
@@ -13,9 +13,9 @@
  "sections": [
   {
    "id": "hero",
+   "kind": "header",
+   "name": "Хедер",
    "c": "n",
-   "full": true,
-   "stat": true,
    "rows": 16,
    "blocks": [
     {
@@ -84,6 +84,8 @@
   },
   {
    "id": "about",
+   "kind": "normal",
+   "name": "Who am I",
    "c": "n",
    "rows": 14,
    "blocks": [
@@ -124,6 +126,8 @@
   },
   {
    "id": "toc",
+   "kind": "toc",
+   "name": "Содержание",
    "c": "n",
    "rows": 9,
    "tr": "white-toc.svg",
@@ -152,9 +156,11 @@
   },
   {
    "id": "gal",
+   "kind": "normal",
+   "name": "Branding & Packaging",
+   "group": "Recent Work",
    "c": "b",
    "rows": 14,
-   "group": "Branding & Packaging",
    "tr": "beige.svg",
    "blocks": [
     {
@@ -175,8 +181,7 @@
      "y": 2,
      "w": 12,
      "h": 7,
-     "srcs": [],
-     "toc": "Schindler x Talent Cards"
+     "srcs": []
     },
     {
      "id": "g3",
@@ -194,9 +199,11 @@
   },
   {
    "id": "m3",
+   "kind": "normal",
+   "name": "Can in 3D",
+   "group": "Recent Work",
    "c": "a",
    "rows": 12,
-   "group": "Recent Work",
    "blocks": [
     {
      "id": "m1",
@@ -215,8 +222,26 @@
      "x": 1,
      "y": 2,
      "w": 10,
-     "h": 8,
-     "toc": "Can in 3D"
+     "h": 8
+    }
+   ]
+  },
+  {
+   "id": "foot",
+   "kind": "footer",
+   "name": "Футер",
+   "c": "b",
+   "rows": 3,
+   "blocks": [
+    {
+     "id": "f1",
+     "t": "text",
+     "x": 0,
+     "y": 0,
+     "w": 8,
+     "h": 2,
+     "text": "Contact: your@email.com",
+     "c": "n"
     }
    ]
   }

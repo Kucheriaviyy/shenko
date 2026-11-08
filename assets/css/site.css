@@ -33,12 +33,17 @@ body{background:var(--n);color:var(--b);font:400 1rem/1.4 "Roboto Mono",ui-monos
 .toc .l2{padding-left:1.6em;opacity:.85;margin-top:.35em}
 /* letters: outer .L flies in with scroll, inner u wiggles */
 .L{display:inline-block;font-style:normal;will-change:transform}
-.wg u{display:inline-block;text-decoration:none;transform:rotate(var(--r));animation:wg .8s steps(1) var(--t) infinite}
+.wg u{display:inline-block;text-decoration:none;transform:rotate(calc(var(--r)*var(--wa,1)));animation:wg .8s steps(1) var(--t) infinite}
 .nowg .wg u{animation:none;transform:none}
 .w{display:inline-block;white-space:nowrap;font-weight:inherit}
-@keyframes wg{50%{transform:rotate(calc(var(--r)*-1)) translateY(-.02em)}}
+@keyframes wg{50%{transform:rotate(calc(var(--r)*var(--wa,1)*-1)) translateY(-.02em)}}
 @media(prefers-reduced-motion:reduce){.wg u{animation:none}}
 .ft{position:relative;z-index:1;background:var(--b);color:var(--n);padding:6vh 6vw;font-size:.8rem;display:flex;flex-wrap:wrap;gap:1.2rem 3rem;justify-content:space-between}
 .ft a{color:inherit;cursor:pointer}
 dialog{max-width:min(90vw,560px);border:0;background:var(--n);color:var(--b);padding:1.6rem}
 dialog p{margin:.8rem 0}dialog::backdrop{background:#3c140fcc}
+.hid{opacity:.35}
+.legal{position:relative;padding:0 6vw 5vh;font-size:.8rem}.legal a{cursor:pointer;text-decoration:underline}
+.ftr .g{margin-bottom:2vh}
+@media(max-width:699px){.hm{display:none}}
+@media(min-width:700px){.hd{display:none}}
