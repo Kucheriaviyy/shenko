@@ -65,7 +65,8 @@
      "fs": 3.2,
      "bg": "a",
      "rot": 2,
-     "text": "I am a digital designer and animator focused on branding, packaging and vector illustration. I am currently completing my Mediamatiker EFZ apprenticeship at Schindler and studying at BBZW Sursee."
+     "text": "I am a digital designer and animator focused on branding, packaging and vector illustration. I am currently completing my Mediamatiker EFZ apprenticeship at Schindler and studying at BBZW Sursee.",
+     "oy": 5
     },
     {
      "id": "a4",
@@ -327,9 +328,9 @@
     {
      "id": "unbenanntm1",
      "t": "model",
-     "x": 3,
+     "x": 2,
      "y": 17,
-     "w": 6,
+     "w": 8,
      "h": 12,
      "src": "assets/models/SODA_can.glb"
     }
@@ -650,7 +651,8 @@
      "h": 2,
      "text": "Watsapp +41 78 213 4941\nInstagram shenko.png\nTelegram https://t.me/TheKucheryavyy\nEmail yegor.sshev@gmail.com",
      "c": "b",
-     "oy": 0
+     "oy": 0,
+     "fy": false
     },
     {
      "id": "5mkeuu",
