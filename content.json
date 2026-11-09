@@ -10,7 +10,9 @@
    "white.svg",
    "white-toc.svg"
   ],
-  "v": 2
+  "v": 2,
+  "repo": "kucheriaviyy/shenko",
+  "br": "main"
  },
  "sections": [
   {
@@ -228,7 +230,6 @@
      "h": 7,
      "n": 4,
      "srcs": [
-      "assets/img/HAND___2.png",
       "assets/img/3_cards.png",
       "assets/img/3_HANDS.png",
       "assets/img/CARDS.png"
@@ -623,7 +624,8 @@
      "w": 12,
      "h": 7,
      "n": 6,
-     "srcs": []
+     "srcs": [],
+     "folder": "assets/img/other"
     }
    ]
   },
