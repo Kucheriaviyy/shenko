@@ -159,6 +159,13 @@ async function openLib(k,sc,m){
 async function checkTr(){const names=[...new Set(S.sections.map(s=>s.tr).filter(Boolean))],miss=[];
  for(const n of names){try{const r=await fetch('assets/transitions/'+n,{method:'HEAD'});if(!r.ok)miss.push(n)}catch(e){miss.push(n)}}
  if(miss.length)st('В репозитории нет файлов переходов: '+miss.join(', ')+'. Залей папку assets/transitions')}
+async function diag(){const out=[];
+ try{const r=await fetch('https://api.github.com/zen');out.push('GitHub из браузера доступен (код '+r.status+').')}catch(e){out.push('GitHub из браузера НЕ доступен. Значит, мешает VPN, блокировщик, расширение или настройка приватности. Отключи их или используй обходной путь через GitHub Desktop.')}
+ const c=cfgv();if(!c)out.push('Токен и репозиторий ещё не введены: нажми GitHub.');
+ else if(c.t)try{const r=await fetch('https://api.github.com/repos/'+c.repo,{headers:{Authorization:'Bearer '+c.t,Accept:'application/vnd.github+json'}});
+  out.push(r.ok?'Репозиторий '+c.repo+' и токен работают.':r.status==404?'Репозиторий '+c.repo+' не найден, или у токена нет к нему доступа.':r.status==401||r.status==403?'GitHub отклонил токен (код '+r.status+'): срок вышел или нет права Contents.':'GitHub вернул код '+r.status+'.')}
+ catch(e){out.push('Запрос к репозиторию не прошёл: '+e.message)}
+ alert(out.join('\n\n'))}
 /* files */
 async function reg(file,dir0){let blob=file,name=file.name.replace(/[^\w.\-]+/g,'_'),dir=dir0;
 if(file.type.startsWith('image/')&&file.type!='image/svg+xml'){const im=await createImageBitmap(file),k=Math.min(1,1600/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);blob=await new Promise(r=>c.toBlob(r,'image/webp',.85));name=name.replace(/\.\w+$/,'')+'.webp'}
@@ -178,7 +185,7 @@ function out(){const o=JSON.parse(JSON.stringify(S)),q=new Set;(function w(x){fo
 const st=m=>{$('#st').textContent=m};
 function cfg(){let repo=(prompt('Репозиторий в формате владелец/имя, например kucheriaviyy/shenko')||'').trim().replace(/^https?:\/\/github\.com\//,'').replace(/\.git$|\/+$/g,''),t=(prompt('GitHub токен (только этот репозиторий, Contents: read and write)')||'').trim();if(repo&&t)localStorage.gh=JSON.stringify({repo,t,br:'main'})}
 async function gh(path,b64){const c=JSON.parse(localStorage.gh),u=`https://api.github.com/repos/${c.repo}/contents/${path}`,h={Authorization:'Bearer '+c.t,Accept:'application/vnd.github+json'};
-const net=(x)=>{throw new Error(`нет связи с GitHub при отправке «${path}». Проверь интернет, отключи VPN и блокировщики рекламы (или открой в обычной вкладке Safari). Исходная ошибка: ${x.message}`)};
+const net=(x)=>{throw new Error(`нет связи с GitHub при отправке «${path}». Нажми «Связь» в шапке, там будет видно, что мешает. Обходной путь: «content.json» скачать, заменить файл в папке репозитория на компьютере и отправить через GitHub Desktop. Исходная ошибка: ${x.message}`)};
 let g,sha;try{g=await fetch(u+'?ref='+c.br,{headers:h})}catch(x){net(x)}
 if(g.status==401||g.status==403)throw new Error(`GitHub отклонил токен (${g.status}). Проверь, что токен не просрочен и у него есть Contents: Read and write для репозитория ${c.repo}`);
 if(g.status==404)throw new Error(`Репозиторий «${c.repo}» или ветка «${c.br}» не найдены. Нажми GitHub в шапке и введи владелец/имя`);
@@ -193,6 +200,7 @@ $('#top').addEventListener('click',e=>{const t=e.target.closest('button');if(!t)
 if(a=='anim'){anim=!anim;t.classList.toggle('on',anim);return commit()}
 if(a=='grid'){grid=!grid;t.classList.toggle('on',grid);mark()}if(a=='undo')undo();if(a=='push')push();if(a=='cfg'){localStorage.removeItem('gh');cfg()}
 if(a=='open')open('index.html');
+if(a=='diag')return diag();
 if(a=='json'){const l=document.createElement('a');l.href=URL.createObjectURL(new Blob([JSON.stringify(out()[0],null,1)]));l.download='content.json';l.click()}});
 addEventListener('resize',size);
 fr.onload=()=>{try{wire()}catch(e){st('Ошибка: '+e.message)}commit(true)};
