@@ -112,7 +112,7 @@
      "h": 2,
      "x": 4,
      "y": 19,
-     "src": "assets/img/arrow_Asset_29_8x.webp",
+     "src": "assets/img/arrow.png",
      "oy": -55,
      "ox": 20
     }
@@ -558,7 +558,7 @@
      "y": 10,
      "w": 12,
      "h": 7,
-     "src": ""
+     "src": "assets/img/VITA_2.png"
     }
    ],
    "tr": "white.svg"

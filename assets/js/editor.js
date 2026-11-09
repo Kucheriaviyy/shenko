@@ -1,5 +1,5 @@
 const $=s=>document.querySelector(s),fr=$('#fr'),LEFT=$('#left'),RT=$('#right'),RAIL=$('#rail');
-let anim=false,rs2=null,S,sel={s:null,b:null},ltab='layers',menu=false,hist=[],last=0,dev='phone',grid=true,dr=null,dragS=null;
+let SRV='',anim=false,rs2=null,S,sel={s:null,b:null},ltab='layers',menu=false,hist=[],last=0,dev='phone',grid=true,dr=null,dragS=null;
 const UP=new Map(),PB=new Map();
 const DEV={phone:[390,780],tablet:[768,1024],laptop:[1280,800]};
 const PAL=[['n','Беж'],['a','Беж акцент'],['b','Коричневый'],['r','Красный'],['w','Белый']];
@@ -16,8 +16,8 @@ image:[['_','Картинка'],['src','Файл','file'],['fit','Вписыва
 carousel:[['_','Карусель'],['srcs','Фото (первое = титульное)','thumbs'],['iw','Ширина фото, % (меньше 100 = следующее выглядывает)','num'],['gap','Расстояние между фото','num'],['fit','Вписывание','sel',[['cover','Заполнить'],['contain','Вписать целиком']]],['n','Сколько заглушек, пока нет фото','num']],
 tools:[['_','Программы'],['items','Ключи: ai, ps, id, bl, fg, ae (по одной в строке)','list'],['fs','Размер иконок','num'],['lab','Названия всегда видны (иначе по нажатию)','chk']],
 card3d:[['_','Открытка A5 альбомная (вращается пальцем)'],['front','Лицевая сторона','file'],['back','Обратная сторона','file']],
-model:[['_','3D модель'],['src','Файл .glb','file']],
-pdf:[['_','PDF-книга'],['pages','Страницы-картинки','files']],
+model:[['_','3D модель'],['src','Файл .glb','file'],['hint','Подсказка на блоке (пусто = по умолчанию)','text']],
+pdf:[['_','PDF-книга'],['pages','Страницы-картинки','files'],['hint','Подсказка на блоке (пусто = по умолчанию)','text']],
 shape:[['_','Шейп'],['k','Форма 1-5','num'],['c','Цвет','col']],
 toc:[['_','Оглавление'],['fs','Размер','num'],['c','Цвет названий секций','col'],['gc','Цвет заголовков групп','col']]};
 const VIEW=[['_','Точное положение'],['ox','Сдвиг по X (стрелки на клавиатуре)','num'],['oy','Сдвиг по Y','num'],['_','Вид и показ'],['op','Прозрачность (0-1)','num'],['z','Слой (z)','num'],['hm','Скрыть на телефоне','chk'],['hd','Скрыть на компьютере','chk']];
@@ -58,11 +58,11 @@ function addBlock(t,sid,x,y){const s=S.sections.find(q=>q.id==sid);if(!s)return;
 function delb(){if(!blk())return;snap();sec().blocks=sec().blocks.filter(x=>x.id!=sel.b);sel.b=null;commit(true)}
 function wire(){const d=fr.contentDocument,st=d.createElement('style');st.textContent=CSS;d.head.appendChild(st);
 d.addEventListener('click',e=>e.preventDefault(),true);
-d.addEventListener('pointerdown',e=>{const rz=e.target.closest('.rz');if(rz){const sc=rz.closest('.sec'),s=S.sections.find(x=>x.id==sc.dataset.s),m=met(sc);sel={s:s.id,b:null};snap();rz.setPointerCapture(e.pointerId);rs2={sc,s,y:e.clientY,r0:+sc.querySelector('.g').style.getPropertyValue('--rows'),ch:m.ch,min:Math.max(1,...s.blocks.map(b=>b.y+b.h))};e.preventDefault();return}
+d.addEventListener('pointerdown',e=>{const rz=e.target.closest('.rz');if(rz){const sc=rz.closest('.sec'),s=S.sections.find(x=>x.id==sc.dataset.s),m=met(sc);sel={s:s.id,b:null};snap();rz.setPointerCapture(e.pointerId);rs2={sc,s,y:e.clientY,r0:+sc.querySelector('.g').style.getPropertyValue('--rows'),ch:m.ch,min:1};e.preventDefault();return}
 const bl=e.target.closest('.b'),sc=e.target.closest('.sec');if(!sc)return;
 sel={s:sc.dataset.s,b:bl?bl.dataset.b:null};mark();left_();right_();if(!bl)return;e.preventDefault();
 const B=blk();snap();bl.setPointerCapture(e.pointerId);dr={bl,rs:!!e.target.closest('.rs'),x:e.clientX,y:e.clientY,o:{x:B.x,y:B.y,w:B.w,h:B.h},sc}});
-d.addEventListener('pointermove',e=>{if(rs2){const n=Math.max(rs2.min,rs2.r0+Math.round((e.clientY-rs2.y)/rs2.ch));rs2.s.rows=n;rs2.sc.querySelector('.g').style.setProperty('--rows',n);rs2.sc.querySelector('.rz').dataset.r=n+' рядов';return}if(!dr)return;const B=blk(),s=sec(),m=met(dr.sc),o=dr.o,dx=Math.round((e.clientX-dr.x)/m.cw),dy=Math.round((e.clientY-dr.y)/m.ch);
+d.addEventListener('pointermove',e=>{if(rs2){const n=Math.max(rs2.min,rs2.r0+Math.round((e.clientY-rs2.y)/rs2.ch));rs2.s.rows=n;rs2.sc.querySelector('.g').style.setProperty('--rows',n);rs2.sc.querySelector('.rz').dataset.r=n+' рядов';const mb=Math.max(0,...rs2.s.blocks.map(b=>b.y+b.h));st(n<mb?'Блоки ниже ряда '+n+' выходят за секцию: подвинь их или подними высоту':'Высота секции: '+n+' рядов');return}if(!dr)return;const B=blk(),s=sec(),m=met(dr.sc),o=dr.o,dx=Math.round((e.clientX-dr.x)/m.cw),dy=Math.round((e.clientY-dr.y)/m.ch);
 const c=dr.rs?{x:o.x,y:o.y,w:Math.max(1,Math.min(12-o.x,o.w+dx)),h:Math.max(1,o.h+dy)}:{x:Math.max(0,Math.min(12-o.w,o.x+dx)),y:Math.max(0,o.y+dy),w:o.w,h:o.h};
 if(free(s,B,c)){Object.assign(B,c);dr.bl.style.gridArea=`${B.y+1}/${B.x+1}/span ${B.h}/span ${B.w}`}});
 d.addEventListener('pointerup',()=>{if(rs2){rs2=null;commit(true)}if(dr){dr=null;commit(true)}});
@@ -139,7 +139,7 @@ if((a=='zu'||a=='zd')&&b){snap();b.z=(b.z||0)+(a=='zu'?1:-1);commit(true)}});
 const cfgv=()=>{try{return JSON.parse(localStorage.gh)}catch(e){return null}};
 const LIBF=[['assets/img','Картинки'],['assets/models','3D .glb'],['assets/pdf','PDF-страницы']];
 async function openLib(k,sc,m){
- let c=cfgv();if(!c){cfg();c=cfgv();if(!c)return}
+ let c=cfgv()||{};if(!c.repo){const r=prompt('Репозиторий владелец/имя, например kucheriaviyy/shenko');if(!r)return;c={repo:r.trim(),br:'main'}}
  const dlg=document.getElementById('lib')||document.body.appendChild(Object.assign(document.createElement('dialog'),{id:'lib'}));
  dlg.style.cssText='width:min(94vw,760px);border:0;padding:0;background:#fff;color:#3c140f;font:13px system-ui';
  const b=sc=='b'?blk():null,folder=b&&b.t=='model'?'assets/models':b&&b.t=='pdf'?'assets/pdf':'assets/img';
@@ -147,7 +147,7 @@ async function openLib(k,sc,m){
  const show=async f=>{
   dlg.innerHTML=`<div style="display:flex;gap:6px;align-items:center;padding:12px 14px;border-bottom:1px solid #e6dcd3;flex-wrap:wrap"><b style="font-family:Aktiv,'Arial Black',sans-serif;font-size:15px;flex:1">Файлы из репозитория</b>${LIBF.map(([p,n])=>`<button data-f="${p}"${p==f?' class="on"':''}>${n}</button>`).join('')}<button data-x>Закрыть</button></div><div id="lg" style="padding:14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;max-height:62vh;overflow:auto;font-size:12px">Загрузка…</div>`;
   const g=dlg.querySelector('#lg');
-  try{const h={Accept:'application/vnd.github+json'};if(c.t)h.Authorization='Bearer '+c.t;
+  try{const h={};
    const r=await fetch(`https://api.github.com/repos/${c.repo}/contents/${f}?ref=${c.br}`,{headers:h});
    if(!r.ok)throw new Error(r.status==404?`в репозитории нет папки ${f}`:'GitHub вернул '+r.status);
    const L=(await r.json()).filter(x=>x.type=='file'&&!x.name.startsWith('.'));
@@ -162,9 +162,9 @@ async function checkTr(){const names=[...new Set(S.sections.map(s=>s.tr).filter(
 async function diag(){const out=[];
  try{const r=await fetch('https://api.github.com/zen');out.push('GitHub из браузера доступен (код '+r.status+').')}catch(e){out.push('GitHub из браузера НЕ доступен. Значит, мешает VPN, блокировщик, расширение или настройка приватности. Отключи их или используй обходной путь через GitHub Desktop.')}
  const c=cfgv();if(!c)out.push('Токен и репозиторий ещё не введены: нажми GitHub.');
- else if(c.t)try{const r=await fetch('https://api.github.com/repos/'+c.repo,{headers:{Authorization:'Bearer '+c.t,Accept:'application/vnd.github+json'}});
+ else if(c.t)try{const r=await fetch('https://api.github.com/repos/'+c.repo,{headers:{Authorization:'Bearer '+c.t}});
   out.push(r.ok?'Репозиторий '+c.repo+' и токен работают.':r.status==404?'Репозиторий '+c.repo+' не найден, или у токена нет к нему доступа.':r.status==401||r.status==403?'GitHub отклонил токен (код '+r.status+'): срок вышел или нет права Contents.':'GitHub вернул код '+r.status+'.')}
- catch(e){out.push('Запрос к репозиторию не прошёл: '+e.message)}
+ catch(e){out.push('Запрос с токеном не доходит до GitHub (сеть или расширение его блокирует). Публикация из этого браузера здесь невозможна: используй GitHub Desktop или загрузку файлов на github.com.')}
  alert(out.join('\n\n'))}
 /* files */
 async function reg(file,dir0){let blob=file,name=file.name.replace(/[^\w.\-]+/g,'_'),dir=dir0;
@@ -179,12 +179,12 @@ const idb=()=>new Promise((res,rej)=>{const r=indexedDB.open('shenko',1);r.onupg
 const idbPut=async(path,blob)=>{try{(await idb()).transaction('f','readwrite').objectStore('f').put({path,blob})}catch(e){}};
 const idbAll=async()=>{try{const d=await idb();return await new Promise(r=>{const q=d.transaction('f').objectStore('f').getAll();q.onsuccess=()=>r(q.result);q.onerror=()=>r([])})}catch(e){return[]}};
 const idbClear=async()=>{try{(await idb()).transaction('f','readwrite').objectStore('f').clear()}catch(e){}};
-let saveT;const saveDraft=()=>{clearTimeout(saveT);saveT=setTimeout(()=>{try{localStorage.draft=JSON.stringify({t:Date.now(),s:out()[0]});$('#sv').textContent='Черновик сохранён в браузере'}catch(e){$('#sv').textContent='Черновик не сохранён: '+e.message}},500)};
+let saveT;const saveDraft=()=>{clearTimeout(saveT);saveT=setTimeout(()=>{try{localStorage.draft=JSON.stringify({t:Date.now(),s:out()[0]});$('#sv').textContent=JSON.stringify(out()[0])===SRV?'Сайт актуален':'Не опубликовано: на сайте старая версия, нужен Push'}catch(e){$('#sv').textContent='Черновик не сохранён: '+e.message}},500)};
 /* save */
 function out(){const o=JSON.parse(JSON.stringify(S)),q=new Set;(function w(x){for(const k in x){const v=x[k];if(typeof v=='string'&&v.startsWith('blob:')){const f=UP.get(v);if(f){q.add(f);x[k]=f.path}}else if(v&&typeof v=='object')w(v)}})(o);return[o,[...q]]}
 const st=m=>{$('#st').textContent=m};
 function cfg(){let repo=(prompt('Репозиторий в формате владелец/имя, например kucheriaviyy/shenko')||'').trim().replace(/^https?:\/\/github\.com\//,'').replace(/\.git$|\/+$/g,''),t=(prompt('GitHub токен (только этот репозиторий, Contents: read and write)')||'').trim();if(repo&&t)localStorage.gh=JSON.stringify({repo,t,br:'main'})}
-async function gh(path,b64){const c=JSON.parse(localStorage.gh),u=`https://api.github.com/repos/${c.repo}/contents/${path}`,h={Authorization:'Bearer '+c.t,Accept:'application/vnd.github+json'};
+async function gh(path,b64){const c=JSON.parse(localStorage.gh),u=`https://api.github.com/repos/${c.repo}/contents/${path}`,h={Authorization:'Bearer '+c.t};
 const net=(x)=>{throw new Error(`нет связи с GitHub при отправке «${path}». Нажми «Связь» в шапке, там будет видно, что мешает. Обходной путь: «content.json» скачать, заменить файл в папке репозитория на компьютере и отправить через GitHub Desktop. Исходная ошибка: ${x.message}`)};
 let g,sha;try{g=await fetch(u+'?ref='+c.br,{headers:h})}catch(x){net(x)}
 if(g.status==401||g.status==403)throw new Error(`GitHub отклонил токен (${g.status}). Проверь, что токен не просрочен и у него есть Contents: Read and write для репозитория ${c.repo}`);
@@ -195,7 +195,7 @@ if(!r.ok)throw new Error(`GitHub вернул ${r.status} при отправк�
 const b64=bl=>new Promise(r=>{const f=new FileReader;f.onload=()=>r(f.result.split(',')[1]);f.readAsDataURL(bl)});
 async function push(){try{if(!localStorage.gh)cfg();if(!localStorage.gh)return;const[o,q]=out();let n=0;
 for(const f of q){st(`Файлы ${++n}/${q.length}...`);await gh(f.path,await b64(f.blob))}
-st('content.json...');await gh('content.json',btoa(unescape(encodeURIComponent(JSON.stringify(o,null,1)))));st('Отправлено. Сайт обновится через 1-2 минуты.');localStorage.removeItem('draft');idbClear();$('#sv').textContent=''}catch(e){st('Ошибка: '+e.message)}}
+st('content.json...');await gh('content.json',btoa(unescape(encodeURIComponent(JSON.stringify(o,null,1)))));st('Отправлено. Сайт обновится через 1-2 минуты.');localStorage.removeItem('draft');idbClear();SRV=JSON.stringify(out()[0]);$('#sv').textContent='Опубликовано'}catch(e){st('Ошибка: '+e.message)}}
 $('#top').addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;const a=t.dataset.a;if(t.dataset.d){dev=t.dataset.d;return size()}
 if(a=='anim'){anim=!anim;t.classList.toggle('on',anim);return commit()}
 if(a=='grid'){grid=!grid;t.classList.toggle('on',grid);mark()}if(a=='undo')undo();if(a=='push')push();if(a=='cfg'){localStorage.removeItem('gh');cfg()}
@@ -206,5 +206,6 @@ addEventListener('resize',size);
 fr.onload=()=>{try{wire()}catch(e){st('Ошибка: '+e.message)}commit(true)};
 fetch('content.json?'+Date.now()).then(r=>r.json()).then(async j=>{S=j;S.site=S.site||{};S.site.transitions=S.site.transitions||[];S.sections.forEach((s,i)=>{if(!s.kind)s.kind=s.stat?'header':s.id=='toc'?'toc':'normal';if(!s.name)s.name=s.group||'Секция '+(i+1);s.blocks=s.blocks||[]});
 if(!S.site.v){const t=S.sections.map(s=>s.tr);S.sections.forEach((s,i)=>{delete s.tr;if(t[i+1])s.tr=t[i+1]});S.site.v=2}
+SRV=JSON.stringify(S);
 try{const D=JSON.parse(localStorage.draft||'null');if(D&&JSON.stringify(D.s)!==JSON.stringify(S)&&confirm('Найден несохранённый черновик от '+new Date(D.t).toLocaleString()+'. Восстановить?')){S=D.s;for(const f of await idbAll()){const u=URL.createObjectURL(f.blob);UP.set(u,{blob:f.blob,path:f.path});PB.set(f.path,u)}(function w(x){for(const k in x){const v=x[k];if(typeof v=='string'&&PB.has(v))x[k]=PB.get(v);else if(v&&typeof v=='object')w(v)}})(S)}}catch(e){}
 $('[data-a=grid]').classList.add('on');size();left_();right_();fr.src='index.html?preview&v='+Date.now();checkTr()}).catch(e=>st('Не удалось загрузить content.json. Открой редактор по адресу сайта (...github.io/shenko/editor.html), а не файлом с компьютера. Причина: '+e.message));
