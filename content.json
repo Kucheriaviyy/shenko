@@ -28,7 +28,7 @@
    "kind": "normal",
    "name": "Who am I",
    "c": "n",
-   "rows": 23,
+   "rows": 22,
    "blocks": [
     {
      "id": "a1",
@@ -76,17 +76,45 @@
      "f": "s",
      "fs": 11,
      "c": "b",
-     "z": 2
+     "z": 2,
+     "ox": 0,
+     "oy": 9.5
     },
     {
      "id": "a5",
      "t": "image",
      "x": 0,
      "y": 13,
-     "w": 7,
-     "h": 8,
+     "w": 6,
+     "h": 6,
      "src": "assets/img/about-bbzw.webp",
-     "fit": "contain"
+     "fit": "contain",
+     "ox": 7.5,
+     "oy": -7.5
+    },
+    {
+     "id": "rtp82r",
+     "t": "shape",
+     "w": 8,
+     "h": 6,
+     "k": 2,
+     "c": "b",
+     "x": 6,
+     "y": 16,
+     "oy": -60,
+     "z": -4,
+     "ox": -25
+    },
+    {
+     "id": "2kd1tf",
+     "t": "image",
+     "w": 2,
+     "h": 2,
+     "x": 4,
+     "y": 19,
+     "src": "assets/img/arrow_Asset_29_8x.webp",
+     "oy": -55,
+     "ox": 20
     }
    ],
    "tr": "beige.svg"
@@ -123,13 +151,13 @@
      "t": "text",
      "w": 6,
      "h": 2,
-     "fs": 13.2,
+     "fs": 16.2,
      "c": "r",
      "x": 0,
      "y": 3,
      "text": "of",
      "f": "s",
-     "oy": -14.75,
+     "oy": -19.25,
      "ox": 25.5
     }
    ],

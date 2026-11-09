@@ -152,10 +152,15 @@ let saveT;const saveDraft=()=>{clearTimeout(saveT);saveT=setTimeout(()=>{try{loc
 /* save */
 function out(){const o=JSON.parse(JSON.stringify(S)),q=new Set;(function w(x){for(const k in x){const v=x[k];if(typeof v=='string'&&v.startsWith('blob:')){const f=UP.get(v);if(f){q.add(f);x[k]=f.path}}else if(v&&typeof v=='object')w(v)}})(o);return[o,[...q]]}
 const st=m=>{$('#st').textContent=m};
-function cfg(){const repo=prompt('Репозиторий (владелец/имя)'),t=prompt('GitHub токен (только этот репозиторий, Contents: read and write)');if(repo&&t)localStorage.gh=JSON.stringify({repo,t,br:'main'})}
+function cfg(){let repo=(prompt('Репозиторий в формате владелец/имя, например kucheriaviyy/shenko')||'').trim().replace(/^https?:\/\/github\.com\//,'').replace(/\.git$|\/+$/g,''),t=(prompt('GitHub токен (только этот репозиторий, Contents: read and write)')||'').trim();if(repo&&t)localStorage.gh=JSON.stringify({repo,t,br:'main'})}
 async function gh(path,b64){const c=JSON.parse(localStorage.gh),u=`https://api.github.com/repos/${c.repo}/contents/${path}`,h={Authorization:'Bearer '+c.t,Accept:'application/vnd.github+json'};
-const g=await fetch(u+'?ref='+c.br,{headers:h}),sha=g.ok?(await g.json()).sha:undefined;
-const r=await fetch(u,{method:'PUT',headers:h,body:JSON.stringify({message:'Update '+path,content:b64,branch:c.br,sha})});if(!r.ok)throw new Error(r.status+' '+(await r.text()).slice(0,100))}
+const net=(x)=>{throw new Error(`нет связи с GitHub при отправке «${path}». Проверь интернет, отключи VPN и блокировщики рекламы (или открой в обычной вкладке Safari). Исходная ошибка: ${x.message}`)};
+let g,sha;try{g=await fetch(u+'?ref='+c.br,{headers:h})}catch(x){net(x)}
+if(g.status==401||g.status==403)throw new Error(`GitHub отклонил токен (${g.status}). Проверь, что токен не просрочен и у него есть Contents: Read and write для репозитория ${c.repo}`);
+if(g.status==404)throw new Error(`Репозиторий «${c.repo}» или ветка «${c.br}» не найдены. Нажми GitHub в шапке и введи владелец/имя`);
+if(g.ok)sha=(await g.json()).sha;
+let r;try{r=await fetch(u,{method:'PUT',headers:h,body:JSON.stringify({message:'Update '+path,content:b64,branch:c.br,sha})})}catch(x){net(x)}
+if(!r.ok)throw new Error(`GitHub вернул ${r.status} при отправке «${path}»: ${(await r.text()).slice(0,120)}`)}
 const b64=bl=>new Promise(r=>{const f=new FileReader;f.onload=()=>r(f.result.split(',')[1]);f.readAsDataURL(bl)});
 async function push(){try{if(!localStorage.gh)cfg();if(!localStorage.gh)return;const[o,q]=out();let n=0;
 for(const f of q){st(`Файлы ${++n}/${q.length}...`);await gh(f.path,await b64(f.blob))}
@@ -170,4 +175,4 @@ fr.onload=()=>{try{wire()}catch(e){st('Ошибка: '+e.message)}commit(true)};
 fetch('content.json?'+Date.now()).then(r=>r.json()).then(async j=>{S=j;S.site=S.site||{};S.site.transitions=S.site.transitions||[];S.sections.forEach((s,i)=>{if(!s.kind)s.kind=s.stat?'header':s.id=='toc'?'toc':'normal';if(!s.name)s.name=s.group||'Секция '+(i+1);s.blocks=s.blocks||[]});
 if(!S.site.v){const t=S.sections.map(s=>s.tr);S.sections.forEach((s,i)=>{delete s.tr;if(t[i+1])s.tr=t[i+1]});S.site.v=2}
 try{const D=JSON.parse(localStorage.draft||'null');if(D&&JSON.stringify(D.s)!==JSON.stringify(S)&&confirm('Найден несохранённый черновик от '+new Date(D.t).toLocaleString()+'. Восстановить?')){S=D.s;for(const f of await idbAll()){const u=URL.createObjectURL(f.blob);UP.set(u,{blob:f.blob,path:f.path});PB.set(f.path,u)}(function w(x){for(const k in x){const v=x[k];if(typeof v=='string'&&PB.has(v))x[k]=PB.get(v);else if(v&&typeof v=='object')w(v)}})(S)}}catch(e){}
-$('[data-a=grid]').classList.add('on');size();left_();right_();fr.src='index.html?preview&v='+Date.now()}).catch(e=>st('Открой редактор по адресу сайта (или через локальный сервер), не двойным кликом: '+e.message));
+$('[data-a=grid]').classList.add('on');size();left_();right_();fr.src='index.html?preview&v='+Date.now()}).catch(e=>st('Не удалось загрузить content.json. Открой редактор по адресу сайта (...github.io/shenko/editor.html), а не файлом с компьютера. Причина: '+e.message));
