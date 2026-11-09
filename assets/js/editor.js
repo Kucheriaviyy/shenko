@@ -25,7 +25,7 @@ function secFields(s){const k=s.kind,f=[['_','Секция'],['name','Назва
 if(k=='normal')f.push(['group','Группа (заголовок в оглавлении)','text'],['intoc','Показывать в оглавлении','chk']);
 f.push(['_','Фон'],['c','Цвет фона','col'],['bg','Картинка фона','file'],['bgm','Картинка фона для телефона','file'],['bgfit','Вписывание','sel',[['cover','Заполнить экран'],['contain','Вписать целиком']]],['bgx','Фокус по горизонтали, %','range'],['ov','Затемнение, %','range'],['_','Размер'],['rows','Минимум рядов сетки','num'],['bleed','Во всю ширину экрана (без полей)','chk']);
 if(k=='normal')f.push(['full','Высота на весь экран','chk']);
-f.push(['_','Поведение']);if(k!='header')f.push(['tr','Переход в конце секции','sel','TR'],['trin','Накрывает следующую секцию (влёт), не сдвигая её','chk'],['tro','Оригинальные цвета перехода','chk'],['tc1','Цвет слоя 1 (по порядку в SVG)','hex'],['tc2','Цвет слоя 2','hex'],['tc3','Цвет слоя 3','hex'],['tc4','Цвет слоя 4','hex']);
+f.push(['_','Поведение']);if(k!='header')f.push(['tr','Переход в конце секции','sel','TR'],['trin','Накрывает следующую секцию (влёт), не сдвигая её','chk'],['tro','Оригинальные цвета перехода','chk'],['tc1','Цвет слоя 1 (по порядку в SVG)','col0'],['tc2','Цвет слоя 2','col0'],['tc3','Цвет слоя 3','col0'],['tc4','Цвет слоя 4','col0']);
 f.push(['free','Разрешить наложение блоков','chk'],['hidden','Скрыть секцию на сайте','chk']);return f}
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const uid=()=>Math.random().toString(36).slice(2,8);
@@ -84,7 +84,7 @@ else if(t=='range')h=`<input type="range" min="0" max="100" value="${v??(k=='bgx
 else if(t=='sel'||t=='col'||t=='col0'){const L=t=='sel'?(op=='TR'?[['','Нет']].concat((S.site.transitions||[]).map(x=>[x,x])):op):(t=='col0'?[['','Нет']]:[]).concat(PAL);h=`<select ${a}>${L.map(([x,n])=>`<option value="${x}"${(v||(t=='col'?(o.kind=='footer'?'b':k=='gc'?'r':k=='c'&&sc=='s'?'n':'b'):''))==x?' selected':''}>${n}</option>`).join('')}</select>`}
 else if(t=='file')h=`<input type="text" value="${esc(disp(v))}" ${a}><button data-up="${k}" data-sc="${sc}">Загрузить файл</button><button data-lib="${k}" data-sc="${sc}">Из репозитория</button>`;
 else if(t=='hex')h=`<input type="color" value="${v||'#ffffff'}" ${a}>${v?`<button data-clr="${k}" data-sc="${sc}">Сбросить</button>`:''}`;
-else if(t=='thumbs')h=`<div class="th">${(v||[]).map((u,i)=>`<div class="ti"><img src="${esc(u)}" alt=""><div><button data-a="tf" data-i="${i}" data-k="${k}">Первое</button><button data-a="tu" data-i="${i}" data-k="${k}">Выше</button><button data-a="td" data-i="${i}" data-k="${k}">Ниже</button><button data-a="tx" data-i="${i}" data-k="${k}">Удалить</button></div></div>`).join('')}</div><button data-up="${k}" data-sc="${sc}" data-m="1">Добавить фото</button><button data-lib="${k}" data-sc="${sc}" data-m="1">Из репозитория</button>`;
+else if(t=='thumbs')h=`<div class="th">${(v||[]).map((u,i)=>`<div class="ti"><img src="${esc(u)}" alt=""><div><button data-a="tf" data-i="${i}" data-k="${k}">Первое</button><button data-a="tu" data-i="${i}" data-k="${k}">Выше</button><button data-a="td" data-i="${i}" data-k="${k}">Ниже</button><button data-a="tx" data-i="${i}" data-k="${k}">Удалить</button></div></div>`).join('')}</div><textarea rows="3" data-list data-k="${k}" data-sc="${sc}" placeholder="Имена файлов, по одному в строке">${esc((v||[]).join('\n'))}</textarea><button data-up="${k}" data-sc="${sc}" data-m="1">Добавить фото</button><button data-lib="${k}" data-sc="${sc}" data-m="1">Из репозитория</button>`;
 else if(t=='files')h=`<textarea rows="4" data-list ${a}>${esc((v||[]).map(disp).join('\n'))}</textarea><button data-up="${k}" data-sc="${sc}" data-m="1">Загрузить файлы</button><button data-lib="${k}" data-sc="${sc}" data-m="1">Из репозитория</button>`;
 else h=`<input type="text" value="${esc(v)}" ${a}${k=='group'?' list="gl"':''}>`;
 return `<label class="f"><span>${l}</span>${h}</label>`}
@@ -143,9 +143,9 @@ async function openLib(k,sc,m){
  const dlg=document.getElementById('lib')||document.body.appendChild(Object.assign(document.createElement('dialog'),{id:'lib'}));
  dlg.style.cssText='width:min(94vw,760px);border:0;padding:0;background:#fff;color:#3c140f;font:13px system-ui';
  const b=sc=='b'?blk():null,folder=b&&b.t=='model'?'assets/models':b&&b.t=='pdf'?'assets/pdf':'assets/img';
- const put=p=>{snap();const o=sc=='site'?S.site:sc=='b'?blk():sec();if(m)o[k]=(o[k]||[]).concat([p]);else o[k]=p;commit(true);st('Выбрано: '+p);if(!m)dlg.close()};
- const show=async f=>{
-  dlg.innerHTML=`<div style="display:flex;gap:6px;align-items:center;padding:12px 14px;border-bottom:1px solid #e6dcd3;flex-wrap:wrap"><b style="font-family:Aktiv,'Arial Black',sans-serif;font-size:15px;flex:1">Файлы из репозитория</b>${LIBF.map(([p,n])=>`<button data-f="${p}"${p==f?' class="on"':''}>${n}</button>`).join('')}<button data-x>Закрыть</button></div><div id="lg" style="padding:14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;max-height:62vh;overflow:auto;font-size:12px">Загрузка…</div>`;
+ let curF=folder;const put=p=>{snap();const o=sc=='site'?S.site:sc=='b'?blk():sec();if(m)o[k]=(o[k]||[]).concat([p]);else o[k]=p;commit(true);st('Выбрано: '+p);if(!m)dlg.close()};
+ const show=async f=>{curF=f;
+  dlg.innerHTML=`<div style="display:flex;gap:6px;align-items:center;padding:12px 14px;border-bottom:1px solid #e6dcd3;flex-wrap:wrap"><b style="font-family:Aktiv,'Arial Black',sans-serif;font-size:15px;flex:1">Файлы из репозитория</b>${LIBF.map(([p,n])=>`<button data-f="${p}"${p==f?' class="on"':''}>${n}</button>`).join('')}<button data-x>Закрыть</button></div><div style="padding:10px 14px;display:flex;gap:6px;border-bottom:1px solid #e6dcd3"><input id="mi" placeholder="Имя файла, например SODA-08.png" style="flex:1;border:1px solid #e6dcd3;padding:.4rem;font:inherit"><button data-add>Добавить</button></div><div id="lg" style="padding:14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;max-height:62vh;overflow:auto;font-size:12px">Загрузка…</div>`;
   const g=dlg.querySelector('#lg');
   try{const h={};
    const r=await fetch(`https://api.github.com/repos/${c.repo}/contents/${f}?ref=${c.br}`,{headers:h});
@@ -154,7 +154,7 @@ async function openLib(k,sc,m){
    const raw=p=>p;
    g.innerHTML=L.length?L.map(x=>`<button data-p="${esc(x.path)}" style="display:flex;flex-direction:column;gap:4px;padding:6px;text-align:left;background:#fff">${/\.(png|jpe?g|webp|gif)$/i.test(x.name)?`<img src="${raw(x.path)}" alt="" loading="lazy" style="width:100%;aspect-ratio:1;object-fit:cover;background:#f4efea">`:'<div style="aspect-ratio:1;background:#f4efea;display:flex;align-items:center;justify-content:center">3D / PDF</div>'}<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(x.name)}</span></button>`).join(''):'Папка пустая'}
   catch(e){g.textContent='Не удалось загрузить список: '+e.message}};
- dlg.onclick=e=>{const fb=e.target.closest('[data-f]');if(fb)return show(fb.dataset.f);if(e.target.closest('[data-x]'))return dlg.close();const p=e.target.closest('[data-p]');if(p)put(p.dataset.p)};
+ dlg.onclick=e=>{if(e.target.closest('[data-add]')){const v=dlg.querySelector('#mi').value.trim();if(v)put(v.includes('/')?v:curF+'/'+v);return}const fb=e.target.closest('[data-f]');if(fb)return show(fb.dataset.f);if(e.target.closest('[data-x]'))return dlg.close();const p=e.target.closest('[data-p]');if(p)put(p.dataset.p)};
  dlg.showModal();show(folder)}
 async function checkTr(){const names=[...new Set(S.sections.map(s=>s.tr).filter(Boolean))],miss=[];
  for(const n of names){try{const r=await fetch('assets/transitions/'+n,{method:'HEAD'});if(!r.ok)miss.push(n)}catch(e){miss.push(n)}}

@@ -24,9 +24,10 @@ return `<div class="f-${b.f||'d'}${wg?' wg':''}${fy?' fl':''}" style="font-size:
 text:b=>{const fy=b.fy!==false&&S.site.fly!==false&&!NOANIM;
 return `<p class="f-${b.f||'m'}${b.bg?' bg':''}${fy?' fl':''}" data-f="m" style="font-size:${b.fs||3.2}cqw;color:${col(b.c||'b')};text-align:${b.al||'left'};background:${b.bg?col(b.bg):'none'};transform:rotate(${b.rot||0}deg);${b.ls!=null?`letter-spacing:${b.ls}em;`:''}${b.lh>0?`line-height:${b.lh};`:''}">${fy?lt(b.text||'',hs(b.id),S.site.str||1,true):esc(b.text)}</p>`},
 image:b=>`<div class="${b.pol?'pol':''}" style="height:100%;transform:rotate(${b.rot||0}deg)">${b.src?`<img src="${esc(b.src)}" alt="" style="object-fit:${b.fit||'cover'}">`:ph}</div>`,
-carousel:b=>`<div class="car"${b.folder?` data-folder="${esc(b.folder)}" data-iw="${b.iw||78}" data-fit="${b.fit||'cover'}"`:''} style="gap:${b.gap??2}cqw">${(b.srcs&&b.srcs.length?b.srcs.map((u,i)=>`<img src="${esc(u)}" alt="" decoding="async" style="flex-basis:${b.iw||78}%;object-fit:${b.fit||'cover'}">`):Array(b.n||3).fill(`<div class="ph" style="flex:0 0 ${b.iw||78}%"></div>`)).join('')}</div>`,
-model:b=>b.src?`<div class="mw"><model-viewer src="${esc(b.src)}" camera-controls disable-zoom auto-rotate auto-rotate-delay="0" rotation-per-second="-30deg" camera-orbit="0deg 75deg 105%" environment-image="neutral" tone-mapping="neutral" exposure="1.05" shadow-intensity="1" shadow-softness="0.9" interaction-prompt="none" loading="lazy"></model-viewer><span class="hintp">${esc(b.hint||'Крути, чтобы посмотреть')}</span></div>`:ph,
-pdf:b=>b.pages&&b.pages.length>1?`<div class="mw"><div class="pdf"${b.single?' data-single="1"':''} data-pages="${esc(JSON.stringify(b.pages))}"></div><span class="hintp">${esc(b.hint||'Листай, чтобы открыть брошюру')}</span></div>`:ph,
+carousel:b=>{const n=(b.srcs&&b.srcs.length)?b.srcs.length:(b.n||3);const items=(b.srcs&&b.srcs.length?b.srcs.map(u=>`<img src="${esc(u)}" alt="" style="flex-basis:${b.iw||78}%;object-fit:${b.fit||'cover'}">`):Array.from({length:n},()=>`<div class="ph" style="flex:0 0 ${b.iw||78}%"></div>`)).join('');
+return `<div class="cw"><div class="car"${b.folder?` data-folder="${esc(b.folder)}" data-iw="${b.iw||78}" data-fit="${b.fit||'cover'}"`:''} style="gap:${b.gap??2}cqw">${items}</div><div class="ci"><span></span><i><b></b></i></div></div>`},
+model:b=>b.src?`<div class="mw"><model-viewer src="${esc(b.src)}" camera-controls disable-zoom auto-rotate auto-rotate-delay="0" rotation-per-second="-30deg" camera-orbit="0deg 75deg 105%" environment-image="neutral" tone-mapping="neutral" exposure="1.05" shadow-intensity="1" shadow-softness="0.9" interaction-prompt="none" loading="lazy"></model-viewer><span class="hintp">${esc(b.hint||'Drag to rotate')}</span></div>`:ph,
+pdf:b=>b.pages&&b.pages.length>1?`<div class="mw"><div class="pdf"${b.single?' data-single="1"':''} data-pages="${esc(JSON.stringify(b.pages))}"></div><span class="hintp">${esc(b.hint||'Swipe to flip through the brochure')}</span></div>`:ph,
 shape:b=>`<div style="width:100%;height:100%;background:${col(b.c||'r')};clip-path:${POLY[(b.k||1)-1]||'none'}"></div>`,
 tools:b=>`<div class="tl${b.lab?' lab':''}" style="font-size:${b.fs||8}cqw">${(b.items||[]).map(k=>{const t=TOOLS[k];return t?`<div class="t1"><i style="background:${t[1]};color:${t[2]}"><b>${t[0]}</b></i><em>${t[3]}</em></div>`:''}).join('')}</div>`,
 card3d:b=>`<div class="c3"><div class="cd"><div class="fc">${b.front?`<img src="${esc(b.front)}" alt="">`:ph}</div><div class="fc bk">${b.back?`<img src="${esc(b.back)}" alt="">`:ph}</div></div></div>`,
@@ -68,9 +69,9 @@ const id='x'+(++TN)+'c';t=t.replace(/cls-(\d+)/g,id+'$1');/* each inline svg get
 const cl=[...t.matchAll(/\.(x\d+c\d+)\s*\{\s*fill:\s*([^;\s]+)\s*;/g)].map(x=>({n:x[1],f:x[2]})),set=(c,k)=>{t=t.replace(new RegExp('(\\.'+c+'\\s*\\{\\s*fill:\\s*)[^;\\s]+'),'$1'+k)};
 const main=cl.find(x=>x.f=='#fff')||cl.find(x=>x.f=='#ffebde'),other=cl.find(x=>x!==main&&x.f=='#ffebde');
 if(main&&!e.dataset.o){set(main.n,e.dataset.m);if(other)set(other.n,e.dataset.c)}
-let K=[];try{K=JSON.parse(e.dataset.k)}catch(x){}cl.forEach((x,i)=>{if(K[i])set(x.n,K[i])});
+let K=[];try{K=JSON.parse(e.dataset.k)}catch(x){}cl.forEach((x,i)=>{if(K[i])set(x.n,HEX[K[i]]||K[i])});
 const v=t.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/);e.innerHTML=t.slice(t.indexOf('<svg'));
-const nx=e.parentElement.nextElementSibling;if(v&&nx&&nx.classList.contains('sec')&&!e.dataset.i)nx.style.paddingTop=(v[2]/v[1]*100)+'%'}}
+if(v)e.style.paddingTop=(v[2]/v[1]*100)+'%';const nx=e.parentElement.nextElementSibling;if(v&&nx&&nx.classList.contains('sec')&&!e.dataset.i)nx.style.paddingTop=(v[2]/v[1]*100)+'%'}}
 const PREV=/[?&]preview/.test(location.search);
 const desk=()=>!PREV&&S.site.qr!==false&&!/[?&]full/.test(location.search)&&matchMedia('(min-width:900px) and (hover:hover) and (pointer:fine)').matches;
 function qrl(t,mono){let k=0;const N=[...t].filter(c=>c.trim()).length||1;
@@ -82,6 +83,11 @@ async function folders(){for(const el of document.querySelectorAll('.car[data-fo
  try{const r=await fetch(`https://api.github.com/repos/${repo}/contents/${f}?ref=${S.site.br||'main'}`);if(!r.ok)continue;
  const L=(await r.json()).filter(x=>x.type=='file'&&/\.(png|jpe?g|webp|gif)$/i.test(x.name));
  if(L.length)el.innerHTML=L.map(x=>`<img src="${esc(x.path)}" alt="" style="flex-basis:${el.dataset.iw}%;object-fit:${el.dataset.fit}">`).join('')}catch(e){}}}
+function ci(){document.querySelectorAll('.cw').forEach(w=>{const el=w.querySelector('.car');if(!el)return;
+ const upd=()=>{const n=el.children.length||1,max=el.scrollWidth-el.clientWidth,p=max>0?el.scrollLeft/max:0,i=Math.min(n,Math.round(p*(n-1))+1);
+  w.querySelector('.ci span').textContent=String(i).padStart(2,'0')+' / '+String(n).padStart(2,'0');
+  const bar=w.querySelector('.ci b');bar.style.width=(100/n)+'%';bar.style.left=(p*(100-100/n))+'%'};
+ upd();if(!el._ci){el._ci=1;el.addEventListener('scroll',upd,{passive:true})}})}
 function lightbox(){if(PREV)return;document.addEventListener('click',e=>{const im=e.target.closest('.b img,.car img');if(!im)return;
  let d=document.getElementById('lb');if(!d){d=document.createElement('dialog');d.id='lb';d.innerHTML='<img alt=""><span>×</span>';d.onclick=()=>d.close();document.body.appendChild(d)}
  d.querySelector('img').src=im.currentSrc||im.src;d.showModal()})}
@@ -91,7 +97,7 @@ function render(s,prev,anim){S=norm(s);NOANIM=!!prev&&!anim;if(S.site.title)docu
 if(desk()){app.innerHTML=QR();return}
 const L=S.sections.filter(x=>prev||!x.hidden);
 app.innerHTML=L.map((x,i)=>sec(x,L[i+1],i)).join('')+(L.some(x=>x.kind=='footer')?'':`<footer class="ft">${LEG}<div>SHENKO — Yehor Shevchenko Digital Solutions. © 2026</div></footer>`);
-collect();pdf();cards();trs();folders();document.querySelectorAll('model-viewer').forEach(setupMV);tick()}
+collect();pdf();cards();trs();ci();folders().then(ci);document.querySelectorAll('model-viewer').forEach(setupMV);tick()}
 addEventListener('scroll',tick,{passive:true});addEventListener('resize',tick);
 document.addEventListener('click',e=>{const i=e.target.closest('.t1');if(!e.target.closest('[data-lg]')){document.querySelectorAll('.t1.on').forEach(x=>x!==i&&x.classList.remove('on'));if(i)i.classList.toggle('on')}
 const a=e.target.closest('[data-lg]');if(!a)return;
