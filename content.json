@@ -22,7 +22,7 @@
    "c": "w",
    "rows": 8,
    "bg": "assets/img/header.webp",
-   "bgx": 50,
+   "bgx": 52,
    "blocks": []
   },
   {
@@ -30,7 +30,7 @@
    "kind": "normal",
    "name": "Who am I",
    "c": "n",
-   "rows": 22,
+   "rows": 19,
    "blocks": [
     {
      "id": "a1",
@@ -62,10 +62,10 @@
      "y": 5,
      "w": 6,
      "h": 7,
-     "text": "I am a digital designer and animator working across branding, packaging and vector illustration. I am currently training as a Mediamatiker at BBZW Sursee, where I consistently achieve strong results.",
      "fs": 3.2,
      "bg": "a",
-     "rot": 2
+     "rot": 2,
+     "text": "I am a digital designer and animator focused on branding, packaging and vector illustration. I am currently completing my Mediamatiker EFZ apprenticeship at Schindler and studying at BBZW Sursee."
     },
     {
      "id": "a4",
@@ -115,8 +115,9 @@
      "x": 4,
      "y": 19,
      "src": "assets/img/arrow.png",
-     "oy": -55,
-     "ox": 20
+     "oy": -47.5,
+     "ox": 20,
+     "rot": -25
     }
    ],
    "tr": "beige.svg"
@@ -126,7 +127,7 @@
    "kind": "toc",
    "name": "Содержание",
    "c": "w",
-   "rows": 19,
+   "rows": 12,
    "blocks": [
     {
      "id": "t1",
@@ -171,7 +172,7 @@
    "name": "Schindler x Talent Cards",
    "group": "Recent Work",
    "c": "w",
-   "rows": 31,
+   "rows": 26,
    "blocks": [
     {
      "id": "schindlert",
@@ -183,13 +184,15 @@
      "text": "Schindler x Talent Cards",
      "fs": 15,
      "c": "r",
-     "f": "s"
+     "f": "s",
+     "ox": -7.5,
+     "lh": 0.95
     },
     {
      "id": "schindlerl",
      "t": "text",
      "x": 0,
-     "y": 12,
+     "y": 11,
      "w": 12,
      "h": 1,
      "text": "My Role",
@@ -201,7 +204,7 @@
      "id": "schindlerd",
      "t": "text",
      "x": 0,
-     "y": 13,
+     "y": 12,
      "w": 12,
      "h": 4,
      "text": "I currently work at Schindler, where I was tasked with designing a set of talent cards. The cards had to follow the brand identity, stay simple and easy to understand, and communicate clearly. I then developed mockups to present the cards on our website.",
@@ -212,7 +215,7 @@
      "id": "schindlerp",
      "t": "tools",
      "x": 0,
-     "y": 17,
+     "y": 16,
      "w": 12,
      "h": 2,
      "items": [
@@ -225,7 +228,7 @@
      "id": "schindlerm0",
      "t": "carousel",
      "x": 0,
-     "y": 20,
+     "y": 18,
      "w": 12,
      "h": 7,
      "n": 4,
@@ -241,7 +244,7 @@
      "w": 12,
      "h": 5,
      "x": 0,
-     "y": 6,
+     "y": 5,
      "src": "assets/img/HAND___2.png"
     }
    ],
@@ -253,7 +256,7 @@
    "name": "Unbenannt-1",
    "group": "Branding & Packaging",
    "c": "b",
-   "rows": 31,
+   "rows": 29,
    "blocks": [
     {
      "id": "unbenanntt",
@@ -261,7 +264,7 @@
      "x": 0,
      "y": 1,
      "w": 12,
-     "h": 3,
+     "h": 1,
      "text": "Unbenannt-1",
      "fs": 8,
      "c": "n"
@@ -270,21 +273,21 @@
      "id": "unbenanntl",
      "t": "text",
      "x": 0,
-     "y": 4,
+     "y": 2,
      "w": 12,
      "h": 1,
      "text": "About the project",
-     "fs": 2.8,
+     "fs": 3.8,
      "c": "a",
-     "f": "m"
+     "f": "d"
     },
     {
      "id": "unbenanntd",
      "t": "text",
      "x": 0,
-     "y": 5,
+     "y": 3,
      "w": 12,
-     "h": 6,
+     "h": 5,
      "text": "At the end of a three-month course in graphic design and compositing, we were given a final project: a complete brand identity for a fictional brand, covering brand typefaces, colors, logos, patterns, mockups and a website layout. The deadline was under five days, roughly 30 hours of work. I designed three unique can designs, then used 3D to create realistic mockups for my website layout.",
      "fs": 3.4,
      "c": "n"
@@ -293,7 +296,7 @@
      "id": "unbenanntp",
      "t": "tools",
      "x": 0,
-     "y": 11,
+     "y": 8,
      "w": 12,
      "h": 2,
      "items": [
@@ -308,7 +311,7 @@
      "id": "unbenanntm0",
      "t": "carousel",
      "x": 0,
-     "y": 13,
+     "y": 10,
      "w": 12,
      "h": 7,
      "n": 11,
@@ -324,14 +327,17 @@
     {
      "id": "unbenanntm1",
      "t": "model",
-     "x": 1,
-     "y": 21,
-     "w": 10,
-     "h": 8,
+     "x": 3,
+     "y": 17,
+     "w": 6,
+     "h": 12,
      "src": "assets/models/SODA_can.glb"
     }
    ],
-   "tr": "white.svg"
+   "tr": "beige.svg",
+   "tc3": "b",
+   "tc2": "r",
+   "tc1": "n"
   },
   {
    "id": "flotte",
@@ -339,7 +345,7 @@
    "name": "Flottefjell",
    "group": "Branding & Packaging",
    "c": "w",
-   "rows": 25,
+   "rows": 24,
    "blocks": [
     {
      "id": "flottet",
@@ -349,8 +355,12 @@
      "w": 12,
      "h": 3,
      "text": "Flottefjell",
-     "fs": 8,
-     "c": "b"
+     "fs": 21,
+     "c": "b",
+     "f": "s",
+     "ox": 0,
+     "al": "left",
+     "oy": -8.5
     },
     {
      "id": "flottel",
@@ -360,9 +370,10 @@
      "w": 12,
      "h": 1,
      "text": "About the project",
-     "fs": 2.8,
+     "fs": 3.8,
      "c": "r",
-     "f": "m"
+     "f": "d",
+     "oy": 3
     },
     {
      "id": "flotted",
@@ -370,7 +381,7 @@
      "x": 0,
      "y": 5,
      "w": 12,
-     "h": 4,
+     "h": 3,
      "text": "As the final project of our print design course, we were asked to develop a brand identity for a tourism brand and design a brochure for it.",
      "fs": 3.4,
      "c": "b"
@@ -379,9 +390,9 @@
      "id": "flottep",
      "t": "tools",
      "x": 0,
-     "y": 9,
+     "y": 8,
      "w": 12,
-     "h": 2,
+     "h": 1,
      "items": [
       "id"
      ],
@@ -391,7 +402,7 @@
      "id": "flottem0",
      "t": "carousel",
      "x": 0,
-     "y": 11,
+     "y": 10,
      "w": 12,
      "h": 7,
      "n": 2,
@@ -406,9 +417,9 @@
      "id": "flottem1",
      "t": "pdf",
      "x": 0,
-     "y": 19,
+     "y": 18,
      "w": 12,
-     "h": 4,
+     "h": 6,
      "pages": [
       "assets/pdf/flottefjell/p01.webp",
       "assets/pdf/flottefjell/p02.webp",
@@ -445,20 +456,24 @@
      "x": 0,
      "y": 1,
      "w": 12,
-     "h": 3,
-     "text": "Christmas Card",
-     "fs": 8,
-     "c": "b"
+     "h": 5,
+     "text": "Christmas \nCard",
+     "fs": 20,
+     "c": "w",
+     "f": "s",
+     "lh": 0.9,
+     "ox": -11,
+     "oy": -7.25
     },
     {
      "id": "xmasl",
      "t": "text",
      "x": 0,
-     "y": 4,
+     "y": 6,
      "w": 12,
      "h": 1,
      "text": "About the project",
-     "fs": 2.8,
+     "fs": 3.8,
      "c": "r",
      "f": "m"
     },
@@ -466,9 +481,9 @@
      "id": "xmasd",
      "t": "text",
      "x": 0,
-     "y": 5,
+     "y": 7,
      "w": 12,
-     "h": 3,
+     "h": 2,
      "text": "An illustrated Christmas card in A5 landscape format. Drag to rotate it in 3D.",
      "fs": 3.4,
      "c": "b"
@@ -477,7 +492,7 @@
      "id": "xmasp",
      "t": "tools",
      "x": 0,
-     "y": 8,
+     "y": 9,
      "w": 12,
      "h": 2,
      "items": [
@@ -490,7 +505,7 @@
      "id": "xmasm0",
      "t": "card3d",
      "x": 1,
-     "y": 10,
+     "y": 11,
      "w": 10,
      "h": 8,
      "front": "assets/img/Weihnachtskarte_Privat.png",
@@ -504,7 +519,7 @@
    "name": "Vita",
    "group": "Digital Art",
    "c": "n",
-   "rows": 19,
+   "rows": 15,
    "blocks": [
     {
      "id": "vitat",
@@ -512,7 +527,7 @@
      "x": 0,
      "y": 1,
      "w": 12,
-     "h": 3,
+     "h": 1,
      "text": "Vita",
      "fs": 8,
      "c": "b"
@@ -521,7 +536,7 @@
      "id": "vital",
      "t": "text",
      "x": 0,
-     "y": 4,
+     "y": 2,
      "w": 12,
      "h": 1,
      "text": "About the project",
@@ -533,9 +548,9 @@
      "id": "vitad",
      "t": "text",
      "x": 0,
-     "y": 5,
+     "y": 3,
      "w": 12,
-     "h": 3,
+     "h": 2,
      "text": "A small illustration I created for Schindler in their visual style, designed to raise awareness of road safety when driving.",
      "fs": 3.4,
      "c": "b"
@@ -544,7 +559,7 @@
      "id": "vitap",
      "t": "tools",
      "x": 0,
-     "y": 8,
+     "y": 5,
      "w": 12,
      "h": 2,
      "items": [
@@ -556,7 +571,7 @@
      "id": "vitam0",
      "t": "image",
      "x": 0,
-     "y": 10,
+     "y": 7,
      "w": 12,
      "h": 7,
      "src": "assets/img/VITA_2.png"
@@ -570,7 +585,7 @@
    "name": "Other Illustrations",
    "group": "Digital Art",
    "c": "b",
-   "rows": 18,
+   "rows": 14,
    "blocks": [
     {
      "id": "othert",
@@ -578,7 +593,7 @@
      "x": 0,
      "y": 1,
      "w": 12,
-     "h": 3,
+     "h": 1,
      "text": "Other Illustrations",
      "fs": 8,
      "c": "n"
@@ -587,19 +602,19 @@
      "id": "otherl",
      "t": "text",
      "x": 0,
-     "y": 4,
+     "y": 2,
      "w": 12,
      "h": 1,
      "text": "About the project",
-     "fs": 2.8,
+     "fs": 5.8,
      "c": "a",
-     "f": "m"
+     "f": "s"
     },
     {
      "id": "otherd",
      "t": "text",
      "x": 0,
-     "y": 5,
+     "y": 3,
      "w": 12,
      "h": 2,
      "text": "A selection of other illustrations.",
@@ -607,20 +622,10 @@
      "c": "n"
     },
     {
-     "id": "otherp",
-     "t": "tools",
-     "x": 0,
-     "y": 7,
-     "w": 12,
-     "h": 2,
-     "items": [],
-     "fs": 8
-    },
-    {
      "id": "otherm0",
      "t": "carousel",
      "x": 0,
-     "y": 9,
+     "y": 6,
      "w": 12,
      "h": 7,
      "n": 6,
@@ -633,18 +638,28 @@
    "id": "foot",
    "kind": "footer",
    "name": "Футер",
-   "c": "b",
-   "rows": 3,
+   "c": "w",
+   "rows": 4,
    "blocks": [
     {
      "id": "f1",
      "t": "text",
      "x": 0,
-     "y": 0,
-     "w": 8,
+     "y": 1,
+     "w": 9,
      "h": 2,
-     "text": "Contact: your@email.com",
-     "c": "n"
+     "text": "Watsapp +41 78 213 4941\nInstagram shenko.png\nTelegram https://t.me/TheKucheryavyy\nEmail yegor.sshev@gmail.com",
+     "c": "b",
+     "oy": 0
+    },
+    {
+     "id": "5mkeuu",
+     "t": "image",
+     "w": 2,
+     "h": 2,
+     "x": 10,
+     "y": 1,
+     "src": "assets/img/logo_shenko.png"
     }
    ]
   }
