@@ -227,7 +227,12 @@
      "w": 12,
      "h": 7,
      "n": 4,
-     "srcs": []
+     "srcs": [
+      "assets/img/HAND___2.png",
+      "assets/img/3_cards.png",
+      "assets/img/3_HANDS.png",
+      "assets/img/CARDS.png"
+     ]
     },
     {
      "id": "qfkaz9",
@@ -236,7 +241,7 @@
      "h": 5,
      "x": 0,
      "y": 6,
-     "src": "assets/img/HAND___2.webp"
+     "src": "assets/img/HAND___2.png"
     }
    ],
    "tr": "beige.svg"
@@ -306,7 +311,14 @@
      "w": 12,
      "h": 7,
      "n": 11,
-     "srcs": []
+     "srcs": [
+      "assets/img/SODA-12.png",
+      "assets/img/SODA-08.png",
+      "assets/img/Soda_Market_3.jpg",
+      "assets/img/SODA-11.png",
+      "assets/img/Soda_Market_2.jpg",
+      "assets/img/Soda_Market_1.png"
+     ]
     },
     {
      "id": "unbenanntm1",
@@ -315,7 +327,7 @@
      "y": 21,
      "w": 10,
      "h": 8,
-     "src": ""
+     "src": "assets/models/SODA_can.glb"
     }
    ],
    "tr": "white.svg"
@@ -382,7 +394,12 @@
      "w": 12,
      "h": 7,
      "n": 2,
-     "srcs": []
+     "srcs": [
+      "assets/img/Flott_mockup1.png",
+      "assets/img/Flott_mockup4.png",
+      "assets/img/Flott_mockup2.png",
+      "assets/img/Flott_mockup3.png"
+     ]
     },
     {
      "id": "flottem1",
@@ -475,8 +492,8 @@
      "y": 10,
      "w": 10,
      "h": 8,
-     "front": "",
-     "back": ""
+     "front": "assets/img/Weihnachtskarte_Privat.png",
+     "back": "assets/img/Weihnachtskarte_Privat_back.png"
     }
    ]
   },

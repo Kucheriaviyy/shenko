@@ -10,8 +10,8 @@ const DEF={heading:{w:8,h:2,text:'Heading',fs:8,f:'d',c:'b'},text:{w:6,h:2,text:
 const sv=d=>`<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${d}</svg>`;
 const I={eye:sv('<path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/>'),off:sv('<path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><path d="M3 3l18 18"/>'),trash:sv('<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/>'),plus:sv('<path d="M12 5v14M5 12h14"/>'),layers:sv('<path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/>'),gear:sv('<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/>')};
 const AL=['al','Выравнивание','sel',[['left','Лево'],['center','Центр'],['right','Право']]];
-const FB={heading:[['_','Текст'],['text','Текст','area'],['fs','Размер','num'],['f','Шрифт','sel',FONTS],['c','Цвет','col'],AL,['rot','Поворот, град','num'],['ls','Межбуквенный интервал, em (для Sloop можно -0.05)','num'],['lh','Межстрочный интервал (1 = плотно)','num'],['_','Анимация'],['fy','Вылет букв при скролле','chk'],['str','Сила вылета (1 = обычная)','num'],['qrTitle','Заголовок на странице с QR','text'],['qrText','Текст на странице с QR','area'],['wg','Wiggle букв','chk'],['wa','Сила wiggle (1 = обычная)','num']],
-text:[['_','Текст'],['text','Текст','area'],['fs','Размер','num'],['f','Шрифт','sel',FONTS],['c','Цвет','col'],['bg','Фон плашки','col0'],AL,['fy','Буквы собираются при скролле','chk'],['rot','Поворот, град','num'],['ls','Межбуквенный интервал, em (для Sloop можно -0.05)','num'],['lh','Межстрочный интервал (1 = плотно)','num']],
+const FB={heading:[['_','Текст'],['text','Текст','area'],['fs','Размер','num'],['f','Шрифт','sel',FONTS],['c','Цвет','col'],AL,['rot','Поворот, град','num'],['ls','Межбуквенный интервал, em (для Sloop можно -0.05)','num'],['lh','Межстрочный интервал: 1 = обычный, 0.8 = плотнее, 1.3 = свободнее','num'],['_','Анимация'],['fy','Вылет букв при скролле','chk'],['str','Сила вылета (1 = обычная)','num'],['qrTitle','Заголовок на странице с QR','text'],['qrText','Текст на странице с QR','area'],['wg','Wiggle букв','chk'],['wa','Сила wiggle (1 = обычная)','num']],
+text:[['_','Текст'],['text','Текст','area'],['fs','Размер','num'],['f','Шрифт','sel',FONTS],['c','Цвет','col'],['bg','Фон плашки','col0'],AL,['fy','Буквы собираются при скролле','chk'],['rot','Поворот, град','num'],['ls','Межбуквенный интервал, em (для Sloop можно -0.05)','num'],['lh','Межстрочный интервал: 1 = обычный, 0.8 = плотнее, 1.3 = свободнее','num']],
 image:[['_','Картинка'],['src','Файл','file'],['fit','Вписывание','sel',[['cover','Заполнить'],['contain','Вписать целиком']]],['pol','Рамка полароид','chk'],['rot','Поворот, град','num']],
 carousel:[['_','Карусель'],['srcs','Фото (первое = титульное)','thumbs'],['iw','Ширина фото, % (меньше 100 = следующее выглядывает)','num'],['gap','Расстояние между фото','num'],['fit','Вписывание','sel',[['cover','Заполнить'],['contain','Вписать целиком']]],['n','Сколько заглушек, пока нет фото','num']],
 tools:[['_','Программы'],['items','Ключи: ai, ps, id, bl, fg, ae (по одной в строке)','list'],['fs','Размер иконок','num'],['lab','Названия всегда видны (иначе по нажатию)','chk']],
@@ -79,13 +79,13 @@ function fld(o,[k,l,t,op],sc){if(k=='_')return `<h5>${l}</h5>`;const v=o[k],a=`d
 if(t=='chk')return `<label class="f ck"><input type="checkbox" ${a} ${(v===undefined?dv:v)?'checked':''}><span>${l}</span></label>`;
 if(t=='area')h=`<textarea rows="3" ${a}>${esc(v)}</textarea>`;
 else if(t=='list')h=`<textarea rows="4" data-list ${a}>${esc((v||[]).join('\n'))}</textarea>`;
-else if(t=='num')h=`<input type="number" step="any" value="${v??''}" ${a}>`;
+else if(t=='num')h=`<input type="number" step="any"${k=='lh'?' min="0.5" max="2"':''} value="${v??''}" ${a}>`;
 else if(t=='range')h=`<input type="range" min="0" max="100" value="${v??(k=='bgx'?50:0)}" ${a}>`;
 else if(t=='sel'||t=='col'||t=='col0'){const L=t=='sel'?(op=='TR'?[['','Нет']].concat((S.site.transitions||[]).map(x=>[x,x])):op):(t=='col0'?[['','Нет']]:[]).concat(PAL);h=`<select ${a}>${L.map(([x,n])=>`<option value="${x}"${(v||(t=='col'?(o.kind=='footer'?'b':k=='gc'?'r':k=='c'&&sc=='s'?'n':'b'):''))==x?' selected':''}>${n}</option>`).join('')}</select>`}
-else if(t=='file')h=`<input type="text" value="${esc(disp(v))}" ${a}><button data-up="${k}" data-sc="${sc}">Загрузить файл</button>`;
+else if(t=='file')h=`<input type="text" value="${esc(disp(v))}" ${a}><button data-up="${k}" data-sc="${sc}">Загрузить файл</button><button data-lib="${k}" data-sc="${sc}">Из репозитория</button>`;
 else if(t=='hex')h=`<input type="color" value="${v||'#ffffff'}" ${a}>${v?`<button data-clr="${k}" data-sc="${sc}">Сбросить</button>`:''}`;
-else if(t=='thumbs')h=`<div class="th">${(v||[]).map((u,i)=>`<div class="ti"><img src="${esc(u)}" alt=""><div><button data-a="tf" data-i="${i}" data-k="${k}">Первое</button><button data-a="tu" data-i="${i}" data-k="${k}">Выше</button><button data-a="td" data-i="${i}" data-k="${k}">Ниже</button><button data-a="tx" data-i="${i}" data-k="${k}">Удалить</button></div></div>`).join('')}</div><button data-up="${k}" data-sc="${sc}" data-m="1">Добавить фото</button>`;
-else if(t=='files')h=`<textarea rows="4" data-list ${a}>${esc((v||[]).map(disp).join('\n'))}</textarea><button data-up="${k}" data-sc="${sc}" data-m="1">Загрузить файлы</button>`;
+else if(t=='thumbs')h=`<div class="th">${(v||[]).map((u,i)=>`<div class="ti"><img src="${esc(u)}" alt=""><div><button data-a="tf" data-i="${i}" data-k="${k}">Первое</button><button data-a="tu" data-i="${i}" data-k="${k}">Выше</button><button data-a="td" data-i="${i}" data-k="${k}">Ниже</button><button data-a="tx" data-i="${i}" data-k="${k}">Удалить</button></div></div>`).join('')}</div><button data-up="${k}" data-sc="${sc}" data-m="1">Добавить фото</button><button data-lib="${k}" data-sc="${sc}" data-m="1">Из репозитория</button>`;
+else if(t=='files')h=`<textarea rows="4" data-list ${a}>${esc((v||[]).map(disp).join('\n'))}</textarea><button data-up="${k}" data-sc="${sc}" data-m="1">Загрузить файлы</button><button data-lib="${k}" data-sc="${sc}" data-m="1">Из репозитория</button>`;
 else h=`<input type="text" value="${esc(v)}" ${a}${k=='group'?' list="gl"':''}>`;
 return `<label class="f"><span>${l}</span>${h}</label>`}
 function rail_(){RAIL.innerHTML=[['add','Добавить',I.plus],['layers','Слои',I.layers],['site','Сайт',I.gear]].map(([k,n,i])=>`<button data-r="${k}" class="${ltab==k?'on':''}">${i}${n}</button>`).join('')}
@@ -129,12 +129,36 @@ const l=t.closest('.lib[data-t]');if(l){const s=sec()||S.sections.find(x=>x.kind
 const bl=t.closest('.row.blk');if(bl){sel={s:bl.dataset.bs,b:bl.dataset.b};mark();left_();return right_()}
 const r=t.closest('.row.sc');if(r){sel={s:r.dataset.s,b:null};mark();left_();right_();fr.contentDocument.getElementById(sel.s)?.scrollIntoView({behavior:'smooth'})}});
 RT.addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;const a=t.dataset.a;
+if(t.dataset.lib)return openLib(t.dataset.lib,t.dataset.sc,t.dataset.m);
 if(t.dataset.up)return upload(t.dataset.up,t.dataset.sc,t.dataset.m);
 if(t.dataset.clr){const o=t.dataset.sc=='b'?blk():sec();snap();delete o[t.dataset.clr];return commit(true)}
 if(a&&a[0]=='t'&&t.dataset.k){const b=blk();if(!b)return;snap();const L=b[t.dataset.k],i=+t.dataset.i;if(a=='tx')L.splice(i,1);else if(a=='tf')L.unshift(L.splice(i,1)[0]);else if(a=='tu'&&i>0)[L[i-1],L[i]]=[L[i],L[i-1]];else if(a=='td'&&i<L.length-1)[L[i+1],L[i]]=[L[i],L[i+1]];return commit(true)}
 const b=blk(),s=sec();if(a=='del')return delb();
 if(a=='dup'&&b){snap();const n={...structuredClone(b),id:uid(),y:b.y+b.h};place(s,n);s.blocks.push(n);sel.b=n.id;commit(true)}
 if((a=='zu'||a=='zd')&&b){snap();b.z=(b.z||0)+(a=='zu'?1:-1);commit(true)}});
+const cfgv=()=>{try{return JSON.parse(localStorage.gh)}catch(e){return null}};
+const LIBF=[['assets/img','Картинки'],['assets/models','3D .glb'],['assets/pdf','PDF-страницы']];
+async function openLib(k,sc,m){
+ let c=cfgv();if(!c){cfg();c=cfgv();if(!c)return}
+ const dlg=document.getElementById('lib')||document.body.appendChild(Object.assign(document.createElement('dialog'),{id:'lib'}));
+ dlg.style.cssText='width:min(94vw,760px);border:0;padding:0;background:#fff;color:#3c140f;font:13px system-ui';
+ const b=sc=='b'?blk():null,folder=b&&b.t=='model'?'assets/models':b&&b.t=='pdf'?'assets/pdf':'assets/img';
+ const put=p=>{snap();const o=sc=='site'?S.site:sc=='b'?blk():sec();if(m)o[k]=(o[k]||[]).concat([p]);else o[k]=p;commit(true);st('Выбрано: '+p);if(!m)dlg.close()};
+ const show=async f=>{
+  dlg.innerHTML=`<div style="display:flex;gap:6px;align-items:center;padding:12px 14px;border-bottom:1px solid #e6dcd3;flex-wrap:wrap"><b style="font-family:Aktiv,'Arial Black',sans-serif;font-size:15px;flex:1">Файлы из репозитория</b>${LIBF.map(([p,n])=>`<button data-f="${p}"${p==f?' class="on"':''}>${n}</button>`).join('')}<button data-x>Закрыть</button></div><div id="lg" style="padding:14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;max-height:62vh;overflow:auto;font-size:12px">Загрузка…</div>`;
+  const g=dlg.querySelector('#lg');
+  try{const h={Accept:'application/vnd.github+json'};if(c.t)h.Authorization='Bearer '+c.t;
+   const r=await fetch(`https://api.github.com/repos/${c.repo}/contents/${f}?ref=${c.br}`,{headers:h});
+   if(!r.ok)throw new Error(r.status==404?`в репозитории нет папки ${f}`:'GitHub вернул '+r.status);
+   const L=(await r.json()).filter(x=>x.type=='file'&&!x.name.startsWith('.'));
+   const raw=p=>`https://raw.githubusercontent.com/${c.repo}/${c.br}/${p}`;
+   g.innerHTML=L.length?L.map(x=>`<button data-p="${esc(x.path)}" style="display:flex;flex-direction:column;gap:4px;padding:6px;text-align:left;background:#fff">${/\.(png|jpe?g|webp|gif)$/i.test(x.name)?`<img src="${raw(x.path)}" alt="" loading="lazy" style="width:100%;aspect-ratio:1;object-fit:cover;background:#f4efea">`:'<div style="aspect-ratio:1;background:#f4efea;display:flex;align-items:center;justify-content:center">3D / PDF</div>'}<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(x.name)}</span></button>`).join(''):'Папка пустая'}
+  catch(e){g.textContent='Не удалось загрузить список: '+e.message}};
+ dlg.onclick=e=>{const fb=e.target.closest('[data-f]');if(fb)return show(fb.dataset.f);if(e.target.closest('[data-x]'))return dlg.close();const p=e.target.closest('[data-p]');if(p)put(p.dataset.p)};
+ dlg.showModal();show(folder)}
+async function checkTr(){const names=[...new Set(S.sections.map(s=>s.tr).filter(Boolean))],miss=[];
+ for(const n of names){try{const r=await fetch('assets/transitions/'+n,{method:'HEAD'});if(!r.ok)miss.push(n)}catch(e){miss.push(n)}}
+ if(miss.length)st('В репозитории нет файлов переходов: '+miss.join(', ')+'. Залей папку assets/transitions')}
 /* files */
 async function reg(file,dir0){let blob=file,name=file.name.replace(/[^\w.\-]+/g,'_'),dir=dir0;
 if(file.type.startsWith('image/')&&file.type!='image/svg+xml'){const im=await createImageBitmap(file),k=Math.min(1,1600/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);blob=await new Promise(r=>c.toBlob(r,'image/webp',.85));name=name.replace(/\.\w+$/,'')+'.webp'}
@@ -175,4 +199,4 @@ fr.onload=()=>{try{wire()}catch(e){st('Ошибка: '+e.message)}commit(true)};
 fetch('content.json?'+Date.now()).then(r=>r.json()).then(async j=>{S=j;S.site=S.site||{};S.site.transitions=S.site.transitions||[];S.sections.forEach((s,i)=>{if(!s.kind)s.kind=s.stat?'header':s.id=='toc'?'toc':'normal';if(!s.name)s.name=s.group||'Секция '+(i+1);s.blocks=s.blocks||[]});
 if(!S.site.v){const t=S.sections.map(s=>s.tr);S.sections.forEach((s,i)=>{delete s.tr;if(t[i+1])s.tr=t[i+1]});S.site.v=2}
 try{const D=JSON.parse(localStorage.draft||'null');if(D&&JSON.stringify(D.s)!==JSON.stringify(S)&&confirm('Найден несохранённый черновик от '+new Date(D.t).toLocaleString()+'. Восстановить?')){S=D.s;for(const f of await idbAll()){const u=URL.createObjectURL(f.blob);UP.set(u,{blob:f.blob,path:f.path});PB.set(f.path,u)}(function w(x){for(const k in x){const v=x[k];if(typeof v=='string'&&PB.has(v))x[k]=PB.get(v);else if(v&&typeof v=='object')w(v)}})(S)}}catch(e){}
-$('[data-a=grid]').classList.add('on');size();left_();right_();fr.src='index.html?preview&v='+Date.now()}).catch(e=>st('Не удалось загрузить content.json. Открой редактор по адресу сайта (...github.io/shenko/editor.html), а не файлом с компьютера. Причина: '+e.message));
+$('[data-a=grid]').classList.add('on');size();left_();right_();fr.src='index.html?preview&v='+Date.now();checkTr()}).catch(e=>st('Не удалось загрузить content.json. Открой редактор по адресу сайта (...github.io/shenko/editor.html), а не файлом с компьютера. Причина: '+e.message));
