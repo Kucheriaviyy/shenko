@@ -43,7 +43,7 @@ t:`<h3 class="f-d">Terms of Use</h3><p>All works and texts on this site are © 2
 const still=matchMedia('(prefers-reduced-motion:reduce)').matches;
 /* scroll-linked letters: only elements near the screen are updated, and only when their progress changed */
 let FL=[];
-function collect(){FL=[...document.querySelectorAll('.fl')].map(e=>({e,L:[...e.querySelectorAll('.L')],m:e.dataset.f=='m',p:-1}))}
+let IO;function collect(){if(window.IntersectionObserver){IO&&IO.disconnect();IO=new IntersectionObserver(es=>es.forEach(x=>x.target.classList.toggle('off',!x.isIntersecting)),{rootMargin:'60% 0px'});document.querySelectorAll('.wg').forEach(e=>IO.observe(e))}FL=[...document.querySelectorAll('.fl')].map(e=>({e,L:[...e.querySelectorAll('.L')],m:e.dataset.f=='m',p:-1}))}
 function tick(){if(still||NOANIM)return;const h=innerHeight;
 for(const o of FL){const r=o.e.getBoundingClientRect();let P;
 if(r.bottom<-100)P=1;else if(r.top>h*1.05)P=0;else P=Math.min(1,Math.max(0,(h*.95-r.top)/(h*(o.m?.22:.5))));
@@ -70,7 +70,7 @@ const cl=[...t.matchAll(/\.(x\d+c\d+)\s*\{\s*fill:\s*([^;\s]+)\s*;/g)].map(x=>({
 const main=cl.find(x=>x.f=='#fff')||cl.find(x=>x.f=='#ffebde'),other=cl.find(x=>x!==main&&x.f=='#ffebde');
 if(main&&!e.dataset.o){set(main.n,e.dataset.m);if(other)set(other.n,e.dataset.c)}
 let K=[];try{K=JSON.parse(e.dataset.k)}catch(x){}cl.forEach((x,i)=>{if(K[i])set(x.n,HEX[K[i]]||K[i])});
-const v=t.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/);e.innerHTML=t.slice(t.indexOf('<svg'));
+const v=t.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/);e.innerHTML=t.slice(t.indexOf('<svg')).replace('<svg ','<svg preserveAspectRatio="none" ');
 if(v)e.style.paddingTop=(v[2]/v[1]*100)+'%';const nx=e.parentElement.nextElementSibling;if(v&&nx&&nx.classList.contains('sec')&&!e.dataset.i)nx.style.paddingTop=(v[2]/v[1]*100)+'%'}}
 const PREV=/[?&]preview/.test(location.search);
 const desk=()=>!PREV&&S.site.qr!==false&&!/[?&]full/.test(location.search)&&matchMedia('(min-width:900px) and (hover:hover) and (pointer:fine)').matches;
@@ -98,7 +98,7 @@ if(desk()){app.innerHTML=QR();return}
 const L=S.sections.filter(x=>prev||!x.hidden);
 app.innerHTML=L.map((x,i)=>sec(x,L[i+1],i)).join('')+(L.some(x=>x.kind=='footer')?'':`<footer class="ft">${LEG}<div>SHENKO — Yehor Shevchenko Digital Solutions. © 2026</div></footer>`);
 collect();pdf();cards();trs();ci();folders().then(ci);document.querySelectorAll('model-viewer').forEach(setupMV);tick()}
-let RAF=0;const tk=()=>{if(RAF)return;RAF=requestAnimationFrame(()=>{RAF=0;tick()})};addEventListener('scroll',tk,{passive:true});addEventListener('resize',tk);
+let RAF=0;let ST;const tk=()=>{const d=document.documentElement;d.classList.add('scr');clearTimeout(ST);ST=setTimeout(()=>d.classList.remove('scr'),160);if(RAF)return;RAF=requestAnimationFrame(()=>{RAF=0;tick()})};addEventListener('scroll',tk,{passive:true});addEventListener('resize',tk);
 document.addEventListener('click',e=>{const i=e.target.closest('.t1');if(!e.target.closest('[data-lg]')){document.querySelectorAll('.t1.on').forEach(x=>x!==i&&x.classList.remove('on'));if(i)i.classList.toggle('on')}
 const a=e.target.closest('[data-lg]');if(!a)return;
 const d=document.getElementById('dg')||document.body.appendChild(Object.assign(document.createElement('dialog'),{id:'dg'}));

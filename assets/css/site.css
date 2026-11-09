@@ -10,13 +10,13 @@ body{touch-action:pan-y pinch-zoom;max-width:100%;background:var(--w);color:var(
 .f-s u{padding:.35em .6em;margin:-.35em -.6em}
 .f-m{font-family:"Roboto Mono",monospace;line-height:1.3}
 /* sections: the static one stays pinned, the rest slide over it */
-.sec{position:relative;z-index:1;overflow-x:clip}
+.sec{position:relative;z-index:1}
 .sec.stat{position:sticky;top:0;z-index:0}
 .sec.full{height:100vh;height:100svh}
 .bgi,.ov{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
 .ov{background:var(--b)}
 .trw{position:relative;height:0;z-index:70;pointer-events:none}
-.tr{position:absolute;left:0;top:0;width:100%;z-index:3;pointer-events:none;line-height:0}.tr svg{position:absolute;left:0;top:0;width:100%;height:100%;display:block}
+.tr{position:absolute;left:0;top:-1px;width:100%;z-index:3;pointer-events:none;line-height:0}.tr svg{position:absolute;left:0;top:0;width:100%;height:calc(100% + 1px);display:block}
 /* 12-column grid; row height = column width, text scales with cqw */
 .g{z-index:1;--u:calc(min(92vw,1200px)/12);width:92%;position:relative;container-type:inline-size;display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:var(--u);height:calc(var(--u)*var(--rows));max-width:1200px;margin:0 auto}
 .bleed .g{--u:calc(min(100vw,1200px)/12);width:100%}
@@ -82,3 +82,6 @@ dialog#lb{border:0;padding:0;margin:0;background:rgba(20,8,6,.94);width:100vw;he
 dialog#lb[open]{display:flex}
 dialog#lb img{max-width:96vw;max-height:94vh;object-fit:contain}
 dialog#lb span{position:fixed;top:10px;right:16px;color:#ffebde;font:2rem/1 sans-serif}
+
+/* while scrolling, freeze letter wiggle (hundreds of animated layers make Safari drop panels); also freeze offscreen ones */
+.scr .wg u,.wg.off u{animation-play-state:paused}
