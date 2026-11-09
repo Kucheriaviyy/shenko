@@ -22,8 +22,10 @@
    "c": "w",
    "rows": 8,
    "bg": "assets/img/header.webp",
-   "bgx": 52,
-   "blocks": []
+   "bgx": 50,
+   "blocks": [],
+   "ov": 0,
+   "bleed": true
   },
   {
    "id": "about",
@@ -179,7 +181,7 @@
      "id": "schindlert",
      "t": "heading",
      "x": 0,
-     "y": 1,
+     "y": 0,
      "w": 12,
      "h": 3,
      "text": "Schindler x Talent Cards",
@@ -257,7 +259,7 @@
    "name": "Unbenannt-1",
    "group": "Branding & Packaging",
    "c": "b",
-   "rows": 29,
+   "rows": 30,
    "blocks": [
     {
      "id": "unbenanntt",
@@ -297,7 +299,7 @@
      "id": "unbenanntp",
      "t": "tools",
      "x": 0,
-     "y": 8,
+     "y": 9,
      "w": 12,
      "h": 2,
      "items": [
@@ -312,7 +314,7 @@
      "id": "unbenanntm0",
      "t": "carousel",
      "x": 0,
-     "y": 10,
+     "y": 11,
      "w": 12,
      "h": 7,
      "n": 11,
@@ -329,7 +331,7 @@
      "id": "unbenanntm1",
      "t": "model",
      "x": 2,
-     "y": 17,
+     "y": 18,
      "w": 8,
      "h": 12,
      "src": "assets/models/SODA_can.glb"
