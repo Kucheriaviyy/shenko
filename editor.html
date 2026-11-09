@@ -40,13 +40,13 @@ h4{font-size:15px;margin-bottom:10px}h5{font-size:11px;margin:16px 0 8px;opacity
 input[type=text],input[type=number],select,textarea{width:100%;border:1px solid var(--ln);background:#fff;padding:.4rem;font:inherit;color:inherit}
 input:focus,select:focus,textarea:focus{outline:2px solid var(--ac);outline-offset:-1px}
 .f button{margin-top:4px}.xy{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.wide{width:100%;margin-top:12px}
-.hint{opacity:.65}#right button{margin:0 4px 4px 0}
+.hint{opacity:.65}.th{display:grid;gap:6px;margin-bottom:6px}.ti{display:flex;gap:6px;align-items:center;border:1px solid var(--ln);padding:4px}.ti img{width:56px;height:42px;object-fit:cover;flex:none}.ti div{display:flex;flex-wrap:wrap;gap:3px}.ti button{padding:.15rem .4rem;font-size:11px}input[type=color]{width:44px;height:28px;padding:0;border:1px solid var(--ln)}#right button{margin:0 4px 4px 0}
 </style></head>
 <body>
 <header id="top"><span class="logo">SHENKO builder</span>
 <div class="seg"><button data-d="phone">Телефон</button><button data-d="tablet">Планшет</button><button data-d="laptop">Ноутбук</button></div>
-<button data-a="grid">Сетка</button><button data-a="undo">Отменить</button><span class="sp"></span><span id="st"></span>
+<button data-a="grid">Сетка</button><button data-a="undo">Отменить</button><button data-a="anim" title="В превью буквы не анимируются, так быстрее">Анимации в превью</button><span class="sp"></span><span id="sv" style="opacity:.55;font-size:11px"></span><span id="st"></span>
 <button data-a="open">Открыть сайт</button><button data-a="json">content.json</button><button data-a="cfg">GitHub</button><button data-a="push" class="pri">Push</button></header>
 <div id="main"><nav id="rail"></nav><aside id="left"></aside><div id="stage"><div id="dev"><iframe id="fr" title="preview"></iframe></div></div><aside id="right"></aside></div>
-<script src="assets/js/editor.js?v=7"></script>
+<script src="assets/js/editor.js?v=10"></script>
 </body></html>

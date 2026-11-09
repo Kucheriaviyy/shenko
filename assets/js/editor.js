@@ -1,5 +1,5 @@
 const $=s=>document.querySelector(s),fr=$('#fr'),LEFT=$('#left'),RT=$('#right'),RAIL=$('#rail');
-let rs2=null,S,sel={s:null,b:null},ltab='layers',menu=false,hist=[],last=0,dev='phone',grid=true,dr=null,dragS=null;
+let anim=false,rs2=null,S,sel={s:null,b:null},ltab='layers',menu=false,hist=[],last=0,dev='phone',grid=true,dr=null,dragS=null;
 const UP=new Map(),PB=new Map();
 const DEV={phone:[390,780],tablet:[768,1024],laptop:[1280,800]};
 const PAL=[['n','Беж'],['a','Беж акцент'],['b','Коричневый'],['r','Красный'],['w','Белый']];
@@ -10,22 +10,22 @@ const DEF={heading:{w:8,h:2,text:'Heading',fs:8,f:'d',c:'b'},text:{w:6,h:2,text:
 const sv=d=>`<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${d}</svg>`;
 const I={eye:sv('<path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/>'),off:sv('<path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><path d="M3 3l18 18"/>'),trash:sv('<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/>'),plus:sv('<path d="M12 5v14M5 12h14"/>'),layers:sv('<path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/>'),gear:sv('<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/>')};
 const AL=['al','Выравнивание','sel',[['left','Лево'],['center','Центр'],['right','Право']]];
-const FB={heading:[['_','Текст'],['text','Текст','area'],['fs','Размер','num'],['f','Шрифт','sel',FONTS],['c','Цвет','col'],AL,['rot','Поворот, град','num'],['_','Анимация'],['fy','Вылет букв при скролле','chk'],['str','Сила вылета (1 = обычная)','num'],['wg','Wiggle букв','chk'],['wa','Сила wiggle (1 = обычная)','num']],
-text:[['_','Текст'],['text','Текст','area'],['fs','Размер','num'],['f','Шрифт','sel',FONTS],['c','Цвет','col'],['bg','Фон плашки','col0'],AL,['rot','Поворот, град','num']],
+const FB={heading:[['_','Текст'],['text','Текст','area'],['fs','Размер','num'],['f','Шрифт','sel',FONTS],['c','Цвет','col'],AL,['rot','Поворот, град','num'],['ls','Межбуквенный интервал, em (для Sloop можно -0.05)','num'],['lh','Межстрочный интервал (1 = плотно)','num'],['_','Анимация'],['fy','Вылет букв при скролле','chk'],['str','Сила вылета (1 = обычная)','num'],['qrTitle','Заголовок на странице с QR','text'],['qrText','Текст на странице с QR','area'],['wg','Wiggle букв','chk'],['wa','Сила wiggle (1 = обычная)','num']],
+text:[['_','Текст'],['text','Текст','area'],['fs','Размер','num'],['f','Шрифт','sel',FONTS],['c','Цвет','col'],['bg','Фон плашки','col0'],AL,['fy','Буквы собираются при скролле','chk'],['rot','Поворот, град','num'],['ls','Межбуквенный интервал, em (для Sloop можно -0.05)','num'],['lh','Межстрочный интервал (1 = плотно)','num']],
 image:[['_','Картинка'],['src','Файл','file'],['fit','Вписывание','sel',[['cover','Заполнить'],['contain','Вписать целиком']]],['pol','Рамка полароид','chk'],['rot','Поворот, град','num']],
-carousel:[['_','Карусель'],['srcs','Картинки (по одной в строке)','files'],['n','Сколько заглушек, пока нет картинок','num']],
-tools:[['_','Программы'],['items','Ключи: ai, ps, id, bl, fg, ae (по одной в строке)','list'],['fs','Размер иконок','num']],
+carousel:[['_','Карусель'],['srcs','Фото (первое = титульное)','thumbs'],['iw','Ширина фото, % (меньше 100 = следующее выглядывает)','num'],['gap','Расстояние между фото','num'],['fit','Вписывание','sel',[['cover','Заполнить'],['contain','Вписать целиком']]],['n','Сколько заглушек, пока нет фото','num']],
+tools:[['_','Программы'],['items','Ключи: ai, ps, id, bl, fg, ae (по одной в строке)','list'],['fs','Размер иконок','num'],['lab','Названия всегда видны (иначе по нажатию)','chk']],
 card3d:[['_','Открытка A5 альбомная (вращается пальцем)'],['front','Лицевая сторона','file'],['back','Обратная сторона','file']],
 model:[['_','3D модель'],['src','Файл .glb','file']],
 pdf:[['_','PDF-книга'],['pages','Страницы-картинки','files']],
 shape:[['_','Шейп'],['k','Форма 1-5','num'],['c','Цвет','col']],
-toc:[['_','Оглавление'],['fs','Размер','num'],['c','Цвет','col']]};
+toc:[['_','Оглавление'],['fs','Размер','num'],['c','Цвет названий секций','col'],['gc','Цвет заголовков групп','col']]};
 const VIEW=[['_','Точное положение'],['ox','Сдвиг по X (стрелки на клавиатуре)','num'],['oy','Сдвиг по Y','num'],['_','Вид и показ'],['op','Прозрачность (0-1)','num'],['z','Слой (z)','num'],['hm','Скрыть на телефоне','chk'],['hd','Скрыть на компьютере','chk']];
 function secFields(s){const k=s.kind,f=[['_','Секция'],['name','Название','text']];
 if(k=='normal')f.push(['group','Группа (заголовок в оглавлении)','text'],['intoc','Показывать в оглавлении','chk']);
 f.push(['_','Фон'],['c','Цвет фона','col'],['bg','Картинка фона','file'],['bgm','Картинка фона для телефона','file'],['bgfit','Вписывание','sel',[['cover','Заполнить экран'],['contain','Вписать целиком']]],['bgx','Фокус по горизонтали, %','range'],['ov','Затемнение, %','range'],['_','Размер'],['rows','Минимум рядов сетки','num'],['bleed','Во всю ширину экрана (без полей)','chk']);
 if(k=='normal')f.push(['full','Высота на весь экран','chk']);
-f.push(['_','Поведение']);if(k!='header')f.push(['tr','Переход сверху','sel','TR']);
+f.push(['_','Поведение']);if(k!='header')f.push(['tr','Переход в конце секции','sel','TR'],['trin','Накрывает следующую секцию (влёт), не сдвигая её','chk'],['tro','Оригинальные цвета перехода','chk'],['tc1','Цвет слоя 1 (по порядку в SVG)','hex'],['tc2','Цвет слоя 2','hex'],['tc3','Цвет слоя 3','hex'],['tc4','Цвет слоя 4','hex']);
 f.push(['free','Разрешить наложение блоков','chk'],['hidden','Скрыть секцию на сайте','chk']);return f}
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const uid=()=>Math.random().toString(36).slice(2,8);
@@ -51,7 +51,7 @@ const CSS=`.b{touch-action:none;cursor:grab;outline:1px dashed rgba(232,78,62,.5
 function size(){const[w,h]=DEV[dev],s=$('#stage'),k=Math.min(1,(s.clientWidth-52)/w,(s.clientHeight-60)/h);fr.style.width=w+'px';fr.style.height=h+'px';$('#dev').style.transform=`scale(${k})`;$('#dev').style.marginBottom=(-(h)*(1-k))+'px';document.querySelectorAll('[data-d]').forEach(b=>b.classList.toggle('on',b.dataset.d==dev))}
 function mark(){const d=fr.contentDocument;if(!d||!d.body)return;d.body.classList.toggle('gr',grid);d.querySelectorAll('.sel,.ss').forEach(e=>e.classList.remove('sel','ss'));d.querySelectorAll('.rs,.rz').forEach(e=>e.remove());d.querySelectorAll('.sec:not(.full)').forEach(s=>s.insertAdjacentHTML('beforeend','<i class="rz" data-r="тяни: высота секции"></i>'));
 d.querySelector(`[data-s="${sel.s}"]`)?.classList.add('ss');const b=sel.b&&d.querySelector(`[data-b="${sel.b}"]`);if(b){b.classList.add('sel');b.insertAdjacentHTML('beforeend','<i class="rs"></i>')}}
-function commit(p){try{const w=fr.contentWindow;if(!w||!w.SITE){st('Превью не загрузилось: на сервере старый index.html или assets/js/site.js. Залей новые файлы и обнови страницу (Ctrl+F5).');return}w.SITE.render(S,true);mark();if(p){left_();right_()}}catch(e){st('Ошибка превью: '+e.message);console.error(e)}}
+function commit(p){try{const w=fr.contentWindow;if(!w||!w.SITE){st('Превью не загрузилось: на сервере старый index.html или assets/js/site.js. Залей новые файлы и обнови страницу (Ctrl+F5).');return}w.SITE.render(S,true,anim);mark();saveDraft();if(p){left_();right_()}}catch(e){st('Ошибка превью: '+e.message);console.error(e)}}
 addEventListener('error',e=>st('Ошибка: '+e.message));
 function met(sc){const g=sc.querySelector('.g'),r=g.getBoundingClientRect(),n=+g.style.getPropertyValue('--rows'),cw=r.width/12;return{cw,ch:sc.classList.contains('full')?r.height/n:cw,r}}
 function addBlock(t,sid,x,y){const s=S.sections.find(q=>q.id==sid);if(!s)return;snap();const b=mk(t,0,0);b.x=Math.max(0,Math.min(12-b.w,x));b.y=Math.max(0,y);place(s,b);s.blocks.push(b);sel={s:sid,b:b.id};commit(true)}
@@ -81,8 +81,10 @@ if(t=='area')h=`<textarea rows="3" ${a}>${esc(v)}</textarea>`;
 else if(t=='list')h=`<textarea rows="4" data-list ${a}>${esc((v||[]).join('\n'))}</textarea>`;
 else if(t=='num')h=`<input type="number" step="any" value="${v??''}" ${a}>`;
 else if(t=='range')h=`<input type="range" min="0" max="100" value="${v??(k=='bgx'?50:0)}" ${a}>`;
-else if(t=='sel'||t=='col'||t=='col0'){const L=t=='sel'?(op=='TR'?[['','Нет']].concat((S.site.transitions||[]).map(x=>[x,x])):op):(t=='col0'?[['','Нет']]:[]).concat(PAL);h=`<select ${a}>${L.map(([x,n])=>`<option value="${x}"${(v||(t=='col'?(o.kind=='footer'?'b':k=='c'&&sc=='s'?'n':'b'):''))==x?' selected':''}>${n}</option>`).join('')}</select>`}
+else if(t=='sel'||t=='col'||t=='col0'){const L=t=='sel'?(op=='TR'?[['','Нет']].concat((S.site.transitions||[]).map(x=>[x,x])):op):(t=='col0'?[['','Нет']]:[]).concat(PAL);h=`<select ${a}>${L.map(([x,n])=>`<option value="${x}"${(v||(t=='col'?(o.kind=='footer'?'b':k=='gc'?'r':k=='c'&&sc=='s'?'n':'b'):''))==x?' selected':''}>${n}</option>`).join('')}</select>`}
 else if(t=='file')h=`<input type="text" value="${esc(disp(v))}" ${a}><button data-up="${k}" data-sc="${sc}">Загрузить файл</button>`;
+else if(t=='hex')h=`<input type="color" value="${v||'#ffffff'}" ${a}>${v?`<button data-clr="${k}" data-sc="${sc}">Сбросить</button>`:''}`;
+else if(t=='thumbs')h=`<div class="th">${(v||[]).map((u,i)=>`<div class="ti"><img src="${esc(u)}" alt=""><div><button data-a="tf" data-i="${i}" data-k="${k}">Первое</button><button data-a="tu" data-i="${i}" data-k="${k}">Выше</button><button data-a="td" data-i="${i}" data-k="${k}">Ниже</button><button data-a="tx" data-i="${i}" data-k="${k}">Удалить</button></div></div>`).join('')}</div><button data-up="${k}" data-sc="${sc}" data-m="1">Добавить фото</button>`;
 else if(t=='files')h=`<textarea rows="4" data-list ${a}>${esc((v||[]).map(disp).join('\n'))}</textarea><button data-up="${k}" data-sc="${sc}" data-m="1">Загрузить файлы</button>`;
 else h=`<input type="text" value="${esc(v)}" ${a}${k=='group'?' list="gl"':''}>`;
 return `<label class="f"><span>${l}</span>${h}</label>`}
@@ -128,6 +130,8 @@ const bl=t.closest('.row.blk');if(bl){sel={s:bl.dataset.bs,b:bl.dataset.b};mark(
 const r=t.closest('.row.sc');if(r){sel={s:r.dataset.s,b:null};mark();left_();right_();fr.contentDocument.getElementById(sel.s)?.scrollIntoView({behavior:'smooth'})}});
 RT.addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;const a=t.dataset.a;
 if(t.dataset.up)return upload(t.dataset.up,t.dataset.sc,t.dataset.m);
+if(t.dataset.clr){const o=t.dataset.sc=='b'?blk():sec();snap();delete o[t.dataset.clr];return commit(true)}
+if(a&&a[0]=='t'&&t.dataset.k){const b=blk();if(!b)return;snap();const L=b[t.dataset.k],i=+t.dataset.i;if(a=='tx')L.splice(i,1);else if(a=='tf')L.unshift(L.splice(i,1)[0]);else if(a=='tu'&&i>0)[L[i-1],L[i]]=[L[i],L[i-1]];else if(a=='td'&&i<L.length-1)[L[i+1],L[i]]=[L[i],L[i+1]];return commit(true)}
 const b=blk(),s=sec();if(a=='del')return delb();
 if(a=='dup'&&b){snap();const n={...structuredClone(b),id:uid(),y:b.y+b.h};place(s,n);s.blocks.push(n);sel.b=n.id;commit(true)}
 if((a=='zu'||a=='zd')&&b){snap();b.z=(b.z||0)+(a=='zu'?1:-1);commit(true)}});
@@ -135,9 +139,16 @@ if((a=='zu'||a=='zd')&&b){snap();b.z=(b.z||0)+(a=='zu'?1:-1);commit(true)}});
 async function reg(file,dir0){let blob=file,name=file.name.replace(/[^\w.\-]+/g,'_'),dir=dir0;
 if(file.type.startsWith('image/')&&file.type!='image/svg+xml'){const im=await createImageBitmap(file),k=Math.min(1,1600/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);blob=await new Promise(r=>c.toBlob(r,'image/webp',.85));name=name.replace(/\.\w+$/,'')+'.webp'}
 else if(!file.type.startsWith('image/'))dir=/\.pdf$/i.test(name)?'assets/pdf':'assets/models';
-const u=URL.createObjectURL(blob),path=dir+'/'+name;UP.set(u,{blob,path});PB.set(path,u);return u}
-function upload(k,sc,m){const f=document.createElement('input'),b=sc=='b'?blk():null;f.type='file';f.multiple=!!m;f.accept=b&&b.t=='model'?'.glb,.gltf':'image/*';
-f.onchange=async()=>{snap();const o=sc=='site'?S.site:b||sec(),dir=b&&b.t=='pdf'?'assets/pdf':'assets/img',us=[];for(const x of f.files)us.push(await reg(x,dir));o[k]=m?(o[k]||[]).concat(us):us[0];commit(true)};f.click()}
+let path=dir+'/'+name,n=1;while(PB.has(path))path=dir+'/'+name.replace(/(\.\w+)$/,'-'+(++n)+'$1');
+const u=URL.createObjectURL(blob);UP.set(u,{blob,path});PB.set(path,u);idbPut(path,blob);return u}
+function upload(k,sc,m){const f=document.createElement('input'),b=sc=='b'?blk():null;f.type='file';f.style.display='none';document.body.appendChild(f);f.multiple=!!m;f.accept=b&&b.t=='model'?'.glb,.gltf':'image/*';
+f.onchange=async()=>{snap();const o=sc=='site'?S.site:b||sec(),dir=b&&b.t=='pdf'?'assets/pdf':'assets/img',us=[];let n=0;for(const x of f.files){st(`Обработка ${++n}/${f.files.length}: ${x.name}`);try{us.push(await reg(x,dir))}catch(e){st('Не удалось прочитать '+x.name+': '+e.message)}}f.remove();if(!us.length)return;o[k]=m?(o[k]||[]).concat(us):us[0];st('Добавлено файлов: '+us.length);commit(true)};f.click()}
+/* draft: JSON in localStorage, uploaded files in IndexedDB; survives reloads and freezes */
+const idb=()=>new Promise((res,rej)=>{const r=indexedDB.open('shenko',1);r.onupgradeneeded=()=>r.result.createObjectStore('f',{keyPath:'path'});r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)});
+const idbPut=async(path,blob)=>{try{(await idb()).transaction('f','readwrite').objectStore('f').put({path,blob})}catch(e){}};
+const idbAll=async()=>{try{const d=await idb();return await new Promise(r=>{const q=d.transaction('f').objectStore('f').getAll();q.onsuccess=()=>r(q.result);q.onerror=()=>r([])})}catch(e){return[]}};
+const idbClear=async()=>{try{(await idb()).transaction('f','readwrite').objectStore('f').clear()}catch(e){}};
+let saveT;const saveDraft=()=>{clearTimeout(saveT);saveT=setTimeout(()=>{try{localStorage.draft=JSON.stringify({t:Date.now(),s:out()[0]});$('#sv').textContent='Черновик сохранён в браузере'}catch(e){$('#sv').textContent='Черновик не сохранён: '+e.message}},500)};
 /* save */
 function out(){const o=JSON.parse(JSON.stringify(S)),q=new Set;(function w(x){for(const k in x){const v=x[k];if(typeof v=='string'&&v.startsWith('blob:')){const f=UP.get(v);if(f){q.add(f);x[k]=f.path}}else if(v&&typeof v=='object')w(v)}})(o);return[o,[...q]]}
 const st=m=>{$('#st').textContent=m};
@@ -148,12 +159,15 @@ const r=await fetch(u,{method:'PUT',headers:h,body:JSON.stringify({message:'Upda
 const b64=bl=>new Promise(r=>{const f=new FileReader;f.onload=()=>r(f.result.split(',')[1]);f.readAsDataURL(bl)});
 async function push(){try{if(!localStorage.gh)cfg();if(!localStorage.gh)return;const[o,q]=out();let n=0;
 for(const f of q){st(`Файлы ${++n}/${q.length}...`);await gh(f.path,await b64(f.blob))}
-st('content.json...');await gh('content.json',btoa(unescape(encodeURIComponent(JSON.stringify(o,null,1)))));st('Отправлено. Сайт обновится через 1-2 минуты.')}catch(e){st('Ошибка: '+e.message)}}
+st('content.json...');await gh('content.json',btoa(unescape(encodeURIComponent(JSON.stringify(o,null,1)))));st('Отправлено. Сайт обновится через 1-2 минуты.');localStorage.removeItem('draft');idbClear();$('#sv').textContent=''}catch(e){st('Ошибка: '+e.message)}}
 $('#top').addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;const a=t.dataset.a;if(t.dataset.d){dev=t.dataset.d;return size()}
+if(a=='anim'){anim=!anim;t.classList.toggle('on',anim);return commit()}
 if(a=='grid'){grid=!grid;t.classList.toggle('on',grid);mark()}if(a=='undo')undo();if(a=='push')push();if(a=='cfg'){localStorage.removeItem('gh');cfg()}
 if(a=='open')open('index.html');
 if(a=='json'){const l=document.createElement('a');l.href=URL.createObjectURL(new Blob([JSON.stringify(out()[0],null,1)]));l.download='content.json';l.click()}});
 addEventListener('resize',size);
 fr.onload=()=>{try{wire()}catch(e){st('Ошибка: '+e.message)}commit(true)};
-fetch('content.json?'+Date.now()).then(r=>r.json()).then(j=>{S=j;S.site=S.site||{};S.site.transitions=S.site.transitions||[];S.sections.forEach((s,i)=>{if(!s.kind)s.kind=s.stat?'header':s.id=='toc'?'toc':'normal';if(!s.name)s.name=s.group||'Секция '+(i+1);s.blocks=s.blocks||[]});
+fetch('content.json?'+Date.now()).then(r=>r.json()).then(async j=>{S=j;S.site=S.site||{};S.site.transitions=S.site.transitions||[];S.sections.forEach((s,i)=>{if(!s.kind)s.kind=s.stat?'header':s.id=='toc'?'toc':'normal';if(!s.name)s.name=s.group||'Секция '+(i+1);s.blocks=s.blocks||[]});
+if(!S.site.v){const t=S.sections.map(s=>s.tr);S.sections.forEach((s,i)=>{delete s.tr;if(t[i+1])s.tr=t[i+1]});S.site.v=2}
+try{const D=JSON.parse(localStorage.draft||'null');if(D&&JSON.stringify(D.s)!==JSON.stringify(S)&&confirm('Найден несохранённый черновик от '+new Date(D.t).toLocaleString()+'. Восстановить?')){S=D.s;for(const f of await idbAll()){const u=URL.createObjectURL(f.blob);UP.set(u,{blob:f.blob,path:f.path});PB.set(f.path,u)}(function w(x){for(const k in x){const v=x[k];if(typeof v=='string'&&PB.has(v))x[k]=PB.get(v);else if(v&&typeof v=='object')w(v)}})(S)}}catch(e){}
 $('[data-a=grid]').classList.add('on');size();left_();right_();fr.src='index.html?preview&v='+Date.now()}).catch(e=>st('Открой редактор по адресу сайта (или через локальный сервер), не двойным кликом: '+e.message));

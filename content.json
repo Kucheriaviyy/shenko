@@ -9,14 +9,15 @@
    "beige.svg",
    "white.svg",
    "white-toc.svg"
-  ]
+  ],
+  "v": 2
  },
  "sections": [
   {
    "id": "hero",
    "kind": "header",
    "name": "Хедер",
-   "c": "n",
+   "c": "w",
    "rows": 8,
    "bg": "assets/img/header.webp",
    "bgx": 52,
@@ -47,8 +48,10 @@
      "w": 6,
      "h": 3,
      "text": "Who\nam I",
-     "fs": 10,
-     "c": "r"
+     "fs": 14,
+     "c": "r",
+     "oy": 9.25,
+     "ox": 3.25
     },
     {
      "id": "a3",
@@ -85,15 +88,15 @@
      "src": "assets/img/about-bbzw.webp",
      "fit": "contain"
     }
-   ]
+   ],
+   "tr": "beige.svg"
   },
   {
    "id": "toc",
    "kind": "toc",
    "name": "Содержание",
-   "c": "n",
-   "rows": 14,
-   "tr": "white-toc.svg",
+   "c": "w",
+   "rows": 19,
    "blocks": [
     {
      "id": "t1",
@@ -102,28 +105,43 @@
      "y": 1,
      "w": 12,
      "h": 2,
-     "text": "Table of Contents",
-     "fs": 8,
+     "text": "Table \nContents",
+     "fs": 15,
      "c": "b"
     },
     {
      "id": "t2",
      "t": "toc",
      "x": 0,
-     "y": 4,
+     "y": 5,
      "w": 11,
      "h": 9,
      "fs": 3
+    },
+    {
+     "id": "9am87n",
+     "t": "text",
+     "w": 6,
+     "h": 2,
+     "fs": 13.2,
+     "c": "r",
+     "x": 0,
+     "y": 3,
+     "text": "of",
+     "f": "s",
+     "oy": -14.75,
+     "ox": 25.5
     }
-   ]
+   ],
+   "tr": "white-toc.svg"
   },
   {
    "id": "schindler",
    "kind": "normal",
    "name": "Schindler x Talent Cards",
    "group": "Recent Work",
-   "c": "n",
-   "rows": 21,
+   "c": "w",
+   "rows": 31,
    "blocks": [
     {
      "id": "schindlert",
@@ -133,28 +151,29 @@
      "w": 12,
      "h": 3,
      "text": "Schindler x Talent Cards",
-     "fs": 8,
-     "c": "b"
+     "fs": 15,
+     "c": "r",
+     "f": "s"
     },
     {
      "id": "schindlerl",
      "t": "text",
      "x": 0,
-     "y": 4,
+     "y": 12,
      "w": 12,
      "h": 1,
      "text": "My Role",
-     "fs": 2.8,
+     "fs": 6.8,
      "c": "r",
-     "f": "m"
+     "f": "d"
     },
     {
      "id": "schindlerd",
      "t": "text",
      "x": 0,
-     "y": 5,
+     "y": 13,
      "w": 12,
-     "h": 5,
+     "h": 4,
      "text": "I currently work at Schindler, where I was tasked with designing a set of talent cards. The cards had to follow the brand identity, stay simple and easy to understand, and communicate clearly. I then developed mockups to present the cards on our website.",
      "fs": 3.4,
      "c": "b"
@@ -163,7 +182,7 @@
      "id": "schindlerp",
      "t": "tools",
      "x": 0,
-     "y": 10,
+     "y": 17,
      "w": 12,
      "h": 2,
      "items": [
@@ -176,13 +195,23 @@
      "id": "schindlerm0",
      "t": "carousel",
      "x": 0,
-     "y": 12,
+     "y": 20,
      "w": 12,
      "h": 7,
      "n": 4,
      "srcs": []
+    },
+    {
+     "id": "qfkaz9",
+     "t": "image",
+     "w": 12,
+     "h": 5,
+     "x": 0,
+     "y": 6,
+     "src": "assets/img/HAND___2.webp"
     }
-   ]
+   ],
+   "tr": "beige.svg"
   },
   {
    "id": "unbenannt",
@@ -261,15 +290,15 @@
      "src": ""
     }
    ],
-   "tr": "beige.svg"
+   "tr": "white.svg"
   },
   {
    "id": "flotte",
    "kind": "normal",
    "name": "Flottefjell",
    "group": "Branding & Packaging",
-   "c": "n",
-   "rows": 29,
+   "c": "w",
+   "rows": 25,
    "blocks": [
     {
      "id": "flottet",
@@ -333,7 +362,7 @@
      "x": 0,
      "y": 19,
      "w": 12,
-     "h": 8,
+     "h": 4,
      "pages": [
       "assets/pdf/flottefjell/p01.webp",
       "assets/pdf/flottefjell/p02.webp",
@@ -354,7 +383,7 @@
      ]
     }
    ],
-   "tr": "white.svg"
+   "tr": "beige.svg"
   },
   {
    "id": "xmas",
@@ -421,8 +450,7 @@
      "front": "",
      "back": ""
     }
-   ],
-   "tr": "beige.svg"
+   ]
   },
   {
    "id": "vita",
@@ -487,7 +515,8 @@
      "h": 7,
      "src": ""
     }
-   ]
+   ],
+   "tr": "white.svg"
   },
   {
    "id": "other",
@@ -551,8 +580,7 @@
      "n": 6,
      "srcs": []
     }
-   ],
-   "tr": "white.svg"
+   ]
   },
   {
    "id": "foot",
