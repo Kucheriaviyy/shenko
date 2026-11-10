@@ -24,7 +24,7 @@ return `<div class="f-${b.f||'d'}${wg?' wg':''}${fy?' fl':''}" style="font-size:
 text:b=>{const fy=b.fy!==false&&S.site.fly!==false&&!NOANIM;
 return `<p class="f-${b.f||'m'}${b.bg?' bg':''}${fy?' fl':''}" data-f="m" style="font-size:${b.fs||3.2}cqw;color:${col(b.c||'b')};text-align:${b.al||'left'};background:${b.bg?col(b.bg):'none'};transform:rotate(${b.rot||0}deg);${b.ls!=null?`letter-spacing:${b.ls}em;`:''}${b.lh>0?`line-height:${b.lh};`:''}">${fy?lt(b.text||'',hs(b.id),S.site.str||1,true):esc(b.text)}</p>`},
 image:b=>`<div class="${b.pol?'pol':''}" style="height:100%;transform:rotate(${b.rot||0}deg)">${b.src?`<img src="${esc(b.src)}" alt="" loading="lazy" decoding="async" style="object-fit:${b.fit||'cover'}">`:ph}</div>`,
-carousel:b=>{const n=(b.srcs&&b.srcs.length)?b.srcs.length:(b.n||3);const items=(b.srcs&&b.srcs.length?b.srcs.map(u=>`<img src="${esc(u)}" alt="" loading="lazy" decoding="async" style="flex-basis:${b.iw||78}%;object-fit:${b.fit||'cover'}">`):Array.from({length:n},()=>`<div class="ph" style="flex:0 0 ${b.iw||78}%"></div>`)).join('');
+carousel:b=>{const n=(b.srcs&&b.srcs.length)?b.srcs.length:(b.n||3);const items=(b.srcs&&b.srcs.length?b.srcs.map(u=>`<img src="${esc(u)}" alt="" decoding="async" style="flex-basis:${b.iw||78}%;object-fit:${b.fit||'cover'}">`):Array.from({length:n},()=>`<div class="ph" style="flex:0 0 ${b.iw||78}%"></div>`)).join('');
 return `<div class="cw"><div class="car"${b.folder?` data-folder="${esc(b.folder)}" data-iw="${b.iw||78}" data-fit="${b.fit||'cover'}"`:''} style="gap:${b.gap??2}cqw">${items}</div><div class="ci"><span></span><i><b></b></i></div></div>`},
 model:b=>b.src?`<div class="mw"><model-viewer src="${esc(b.src)}" camera-controls disable-zoom auto-rotate auto-rotate-delay="0" rotation-per-second="-30deg" camera-orbit="0deg 75deg 105%" environment-image="${esc(b.env||'assets/env/studio.hdr')}" tone-mapping="neutral" exposure="1" shadow-intensity="1" shadow-softness="0.9" interaction-prompt="none" loading="lazy"></model-viewer><span class="hintp">${esc(b.hint||'Drag to rotate')}</span></div>`:ph,
 pdf:b=>b.pages&&b.pages.length>1?`<div class="mw"><div class="pdf"${b.single?' data-single="1"':''} data-pages="${esc(JSON.stringify(b.pages))}"></div><span class="hintp">${esc(b.hint||'Swipe to flip through the brochure')}</span></div>`:ph,
@@ -88,7 +88,7 @@ const QR=()=>`<div class="qr"><img src="assets/img/qr.svg" alt="QR code"><h1 cla
 async function folders(){for(const el of document.querySelectorAll('.car[data-folder]')){const f=el.dataset.folder,repo=S.site.repo;if(!repo)continue;
  try{const r=await fetch(`https://api.github.com/repos/${repo}/contents/${f}?ref=${S.site.br||'main'}`);if(!r.ok)continue;
  const L=(await r.json()).filter(x=>x.type=='file'&&/\.(png|jpe?g|webp|gif)$/i.test(x.name));
- if(L.length)el.innerHTML=L.map(x=>`<img src="${esc(x.path)}" alt="" loading="lazy" decoding="async" style="flex-basis:${el.dataset.iw}%;object-fit:${el.dataset.fit}">`).join('')}catch(e){}}}
+ if(L.length)el.innerHTML=L.map(x=>`<img src="${esc(x.path)}" alt="" decoding="async" style="flex-basis:${el.dataset.iw}%;object-fit:${el.dataset.fit}">`).join('')}catch(e){}}}
 function ci(){document.querySelectorAll('.cw').forEach(w=>{const el=w.querySelector('.car');if(!el)return;
  const upd=()=>{const n=el.children.length||1,max=el.scrollWidth-el.clientWidth,p=max>0?el.scrollLeft/max:0,i=Math.min(n,Math.round(p*(n-1))+1);
   w.querySelector('.ci span').textContent=String(i).padStart(2,'0')+' / '+String(n).padStart(2,'0');
@@ -109,6 +109,6 @@ document.addEventListener('click',e=>{const i=e.target.closest('.t1');if(!e.targ
 const a=e.target.closest('[data-lg]');if(!a)return;
 const d=document.getElementById('dg')||document.body.appendChild(Object.assign(document.createElement('dialog'),{id:'dg'}));
 d.innerHTML=LG[a.dataset.lg]+'<p><a href="#" onclick="dg.close();return false">Close</a></p>';d.showModal()});
-if(!PREV)fetch('content.json?'+Date.now()).then(r=>r.json()).then(j=>render(j)).catch(e=>{app.textContent='content.json: '+e.message});
+if(!PREV)fetch((window.CONTENT||'content.json')+'?'+Date.now()).then(r=>r.json()).then(j=>render(j)).catch(e=>{app.textContent='content.json: '+e.message});
 lightbox();
 return{render,norm}})();

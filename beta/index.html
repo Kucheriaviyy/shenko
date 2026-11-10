@@ -13,4 +13,5 @@
 </head><body><main id="app"></main>
 <script>/* beta lives in a subfolder with <base href="../">, so in-page #links must be handled by hand */
 document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a)return;e.preventDefault();var id=a.getAttribute('href').slice(1),t=id&&document.getElementById(id);t?t.scrollIntoView({behavior:'smooth'}):scrollTo({top:0,behavior:'smooth'})});</script>
+<script>window.CONTENT="beta/content.json"</script>
 <script defer src="beta/assets/js/site.js?v=20"></script></body></html>
